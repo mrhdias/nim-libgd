@@ -265,29 +265,29 @@ proc gd_create_from*(fd: FILE, content_type: gdFileExtension = GD_PNG): gdImageP
 proc gd_create_from_file*(filename: string): gdImagePtr = gdImageCreateFromFile(cast[cstring](filename))
 
 
-proc gd_color*(im: gdImagePtr, r: int, g: int, b: int): cint = im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b))
-proc gd_color*(im: gdImagePtr, r: int, g: int, b: int, a: int): cint = im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a))
-proc gd_color*(im: gdImagePtr, hexcolor: string): cint =
+proc gd_color*(im: gdImagePtr, r: int, g: int, b: int): int = cast[int](im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b)))
+proc gd_color*(im: gdImagePtr, r: int, g: int, b: int, a: int): int = im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a))
+proc gd_color*(im: gdImagePtr, hexcolor: string): int =
   if hexcolor[0] == '#':
     if hexcolor.len == 7:
       var r = 0; discard parseHex("0x$1" % hexcolor[1..2], r)
       var g = 0; discard parseHex("0x$1" % hexcolor[3..4], g)
       var b = 0; discard parseHex("0x$1" % hexcolor[5..6], b)
-      return im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b))
+      return cast[int](im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b)))
     if hexcolor.len == 9:
       var r = 0; discard parseHex("0x$1" % hexcolor[1..2], r)
       var g = 0; discard parseHex("0x$1" % hexcolor[3..4], g)
       var b = 0; discard parseHex("0x$1" % hexcolor[5..6], b)
       var a = 0; discard parseHex("0x$1" % hexcolor[7..8], a)
-      return im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a))
+      return cast[int](im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
   return 0
 
 template gd_background_color*(args: varargs[untyped]): untyped = gd_color(args)
 template gd_foreground_color*(args: varargs[untyped]): untyped = gd_color(args)
 
 
-proc gd_set_pixel*(im: gdImagePtr, point: array[2,int], color: cint = -1) =
-  im.gdImageSetPixel(cast[cint](point[0]), cast[cint](point[1]), color)
+proc gd_set_pixel*(im: gdImagePtr, point: array[2,int], color: int = -1) =
+  im.gdImageSetPixel(cast[cint](point[0]), cast[cint](point[1]), cast[cint](color))
 
 
 proc gd_line*(im: gdImagePtr, start_point: array[2,int], end_point: array[2,int], color: int = -1, dashed: bool = false) =

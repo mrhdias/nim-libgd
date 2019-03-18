@@ -3,7 +3,7 @@
 nim c -r gd_arc.nim && rm gd_arc
 nim c -r gd_character.nim && rm gd_character
 nim c -r gd_circle.nim && rm gd_circle
-nim c -r gd_create_from.nim & rm gd_create_from
+nim c -r gd_create_from.nim && rm gd_create_from
 nim c -r gd_ellipse.nim && rm gd_ellipse
 nim c -r gd_flip.nim && rm gd_flip
 nim c -r gd_line.nim && rm gd_line
