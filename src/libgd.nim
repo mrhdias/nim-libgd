@@ -198,13 +198,20 @@ proc gdImageStringTTF*(im: ptr gdImage; brect: ptr cint; fg: cint; fontlist: cst
 proc gdImageStringFT(im: ptr gdImage; brect: ptr cint; fg: cint; fontlist: cstring; ptsize: cdouble; angle: cdouble; x: cint; y: cint; s: cstring): cstring {.cdecl, importc: "gdImageStringFT", dynlib: "libgd.so".}
 
 
-proc gdImageContrast*(src: gdImagePtr; contrast: cdouble): cint {.cdecl, importc: "gdImageContrast", dynlib: "libgd.so".}
-proc gdImageBrightness*(src: gdImagePtr; brightness: cint): cint {.cdecl, importc: "gdImageBrightness", dynlib: "libgd.so".}
-proc gdImageGrayScale*(src: gdImagePtr): cint {.cdecl, importc: "gdImageGrayScale", dynlib: "libgd.so".}
-proc gdImageNegate*(src: gdImagePtr): cint {.cdecl, importc: "gdImageNegate", dynlib: "libgd.so".}
+# https://libgd.github.io/manuals/2.2.4/files/gd_filter-c.html
+proc gdImageContrast(src: gdImagePtr; contrast: cdouble): cint {.cdecl, importc: "gdImageContrast", dynlib: "libgd.so".}
+proc gdImageBrightness(src: gdImagePtr; brightness: cint): cint {.cdecl, importc: "gdImageBrightness", dynlib: "libgd.so".}
+proc gdImageGrayScale(src: gdImagePtr): cint {.cdecl, importc: "gdImageGrayScale", dynlib: "libgd.so".}
+proc gdImageNegate(src: gdImagePtr): cint {.cdecl, importc: "gdImageNegate", dynlib: "libgd.so".}
+proc gdImageEmboss(src: gdImagePtr): cint {.cdecl, importc: "gdImageEmboss", dynlib: "libgd.so".}
+proc gdImageGaussianBlur(im: gdImagePtr): cint {.cdecl, importc: "gdImageGaussianBlur", dynlib: "libgd.so".}
+proc gdImageSmooth(im: gdImagePtr, weight: float): cint {.cdecl, importc: "gdImageSmooth", dynlib: "libgd.so".}
+proc gdImageEdgeDetectQuick(src: gdImagePtr): cint {.cdecl, importc: "gdImageEdgeDetectQuick", dynlib: "libgd.so".}
+proc gdImageSelectiveBlur(src: gdImagePtr): cint {.cdecl, importc: "gdImageSelectiveBlur", dynlib: "libgd.so".}
+proc gdImageMeanRemoval(im: gdImagePtr): cint {.cdecl, importc: "gdImageMeanRemoval", dynlib: "libgd.so".}
+
 
 proc gdImageScale(src: gdImagePtr; new_width: cuint; new_height: cuint): gdImagePtr {.cdecl, importc: "gdImageScale", dynlib: "libgd.so".}
-
 
 proc gdImageCreateFromPng(fd: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromPng", dynlib: "libgd.so".}
 proc gdImageCreateFromJpeg(infile: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromJpeg", dynlib: "libgd.so".}
@@ -402,7 +409,27 @@ proc gd_set_thickness*(im: gdImagePtr, thickness: int) = im.gdImageSetThickness(
 
 proc gd_set_anti_aliased*(im: gdImagePtr, color: int) = im.gdImageSetAntiAliased(cast[cint](color))
 
-proc gd_scale*(src: gdImagePtr; new_width: cuint; new_height: cuint): gdImagePtr = src.gdImageScale(cast[cuint](new_width), cast[cuint](new_height))
+proc gd_scale*(src: gdImagePtr, new_width: cuint, new_height: cuint): gdImagePtr = src.gdImageScale(cast[cuint](new_width), cast[cuint](new_height))
 
 
-
+# Image Filters
+proc gd_contrast*(src: gdImagePtr, contrast: float): bool =
+  if src.gdImageContrast(cast[cdouble](contrast)) == 0: false else: true
+proc gd_brightness*(src: gdImagePtr, brightness: int): bool = 
+  if src.gdImageBrightness(cast[cint](brightness)) == 0: false else: true
+proc gd_gray_scale*(src: gdImagePtr): bool =
+  if cast[cint](src.gdImageGrayScale()) == 0: false else: true
+proc gd_negate*(src: gdImagePtr): bool =
+  if cast[cint](src.gdImageNegate()) == 0: false else: true
+proc gd_emboss*(src: gdImagePtr): bool =
+  if cast[cint](src.gdImageEmboss()) == 0: false else: true
+proc gd_gaussian_blur*(im: gdImagePtr): bool =
+  if cast[cint](im.gdImageGaussianBlur()) == 0: false else: true
+proc gd_smooth*(im: gdImagePtr, weight: float): bool =
+  if cast[cint](im.gdImageSmooth(weight)) == 0: false else: true
+proc gd_edge_detect_quick*(src: gdImagePtr): bool =
+  if cast[cint](src.gdImageEdgeDetectQuick()) == 0: false else: true
+proc gd_selective_blur*(src: gdImagePtr): bool =
+  if cast[cint](src.gdImageSelectiveBlur()) == 0: false else: true
+proc gd_mean_removal*(src: gdImagePtr): bool =
+  if cast[cint](src.gdImageMeanRemoval()) == 0: false else: true

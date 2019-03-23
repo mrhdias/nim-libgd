@@ -25,7 +25,7 @@ proc main() =
       let angle = 2 * PI * c * fi
       let x = r * sin(angle) + width / 2
       let y = r * cos(angle) + height / 2
-      fi = (fn / 5) / fi
+      fi = fi / (fn / 5)
       
       img.gdCircle(center=[x.int, y.int], radius=fi.int)
 
