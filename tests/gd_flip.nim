@@ -10,9 +10,9 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd im, 300, 300:
-    let white = im.gdColor(255, 255, 255)
+    let white = im.gdSetColor(255, 255, 255)
 
-    let red = im.gdColor(255, 0, 0)
+    let red = im.gdSetColor(255, 0, 0)
     im.gdRectangle(startCorner=[50, 50], endCorner=[100, 220], color=red)
 
     im.gdFlip(GD_FLIP_HORIZONTAL)

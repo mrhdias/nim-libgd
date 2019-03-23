@@ -10,8 +10,8 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd im, 128, 128:
-    let white = im.gdColor(255, 255, 255)
-    let blue = im.gdColor("#0000ff")
+    let white = im.gdSetColor(255, 255, 255)
+    let blue = im.gdSetColor("#0000ff")
 
     for i in 10 .. 100:
       im.gdSetPixel(point=[i, i], color=blue)

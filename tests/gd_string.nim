@@ -10,9 +10,9 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd im, 300, 300:
-    let white = im.gdColor(255, 255, 255)
+    let white = im.gdSetColor(255, 255, 255)
 
-    let red = im.gdColor(255, 0, 0)
+    let red = im.gdSetColor(255, 0, 0)
 
     im.gdString(font=gdFontGetSmall(), position=[100, 120], text="Hello World 1!", color=red)
 

@@ -10,11 +10,11 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd im, 300, 300:
-    let white = im.gdColor(255, 255, 255)
-    let blue = im.gdColor(0, 0, 255)
+    let white = im.gdSetColor(255, 255, 255)
+    let blue = im.gdSetColor(0, 0, 255)
 
     try:
-      let blue = im.gdColor("#0000ff")
+      let blue = im.gdSetColor("#0000ff")
       im.gdStringFt(color=blue, fontList="LiberationSans-Bold", size=20.0, angle=0.0, position=[100, 200], text="Hello World!")
     except GDFontError:
       let msg = getCurrentExceptionMsg()

@@ -272,9 +272,9 @@ proc gd_create_from*(fd: FILE, content_type: gdFileExtension = GD_PNG): gdImageP
 proc gd_create_from_file*(filename: string): gdImagePtr = gdImageCreateFromFile(cast[cstring](filename))
 
 
-proc gd_color*(im: gdImagePtr, r: int, g: int, b: int): int = cast[int](im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b)))
-proc gd_color*(im: gdImagePtr, r: int, g: int, b: int, a: int): int = im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a))
-proc gd_color*(im: gdImagePtr, hexcolor: string): int =
+proc gd_set_color*(im: gdImagePtr, r: int, g: int, b: int): int = cast[int](im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b)))
+proc gd_set_color*(im: gdImagePtr, r: int, g: int, b: int, a: int): int = im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a))
+proc gd_set_color*(im: gdImagePtr, hexcolor: string): int =
   if hexcolor[0] == '#':
     if hexcolor.len == 7:
       var r = 0; discard parseHex("0x$1" % hexcolor[1..2], r)

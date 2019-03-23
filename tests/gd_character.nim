@@ -10,9 +10,9 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd im, 300, 300:
-    let white = im.gdColor(255, 255, 255)
+    let white = im.gdSetColor(255, 255, 255)
 
-    let blue = im.gdColor(0, 0, 255)
+    let blue = im.gdSetColor(0, 0, 255)
 
     im.gdCharacter(font=gdFontGetSmall(), position=[100, 120], character='H', color=blue)
   
