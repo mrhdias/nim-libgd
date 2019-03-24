@@ -20,7 +20,9 @@ gd_polygon
 gd_rectangle
 gd_regular_polygon
 gd_selective_blur
+gd_set_color
 gd_set_pixel
+gd_set_thickness
 gd_smooth
 gd_string_ft
 gd_string"

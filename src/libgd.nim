@@ -125,13 +125,13 @@ proc gdImageDestroy*(im: gdImagePtr) {.cdecl, importc: "gdImageDestroy", dynlib:
 
 proc gdImageColorAllocate(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorAllocate", dynlib: "libgd.so".}
 proc gdImageColorAllocateAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorAllocateAlpha", dynlib: "libgd.so".}
-proc gdImageColorClosest*(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorClosest", dynlib: "libgd.so".}
-proc gdImageColorClosestAlpha*(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorClosestAlpha", dynlib: "libgd.so".}
-proc gdImageColorClosestHWB*(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorClosestHWB", dynlib: "libgd.so".}
-proc gdImageColorExact*(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorExact", dynlib: "libgd.so".}
-proc gdImageColorExactAlpha*(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorExactAlpha", dynlib: "libgd.so".}
-proc gdImageColorResolve*(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorResolve", dynlib: "libgd.so".}
-proc gdImageColorResolveAlpha*(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorResolveAlpha", dynlib: "libgd.so".}
+proc gdImageColorClosest(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorClosest", dynlib: "libgd.so".}
+proc gdImageColorClosestAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorClosestAlpha", dynlib: "libgd.so".}
+proc gdImageColorClosestHWB(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorClosestHWB", dynlib: "libgd.so".}
+proc gdImageColorExact(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorExact", dynlib: "libgd.so".}
+proc gdImageColorExactAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorExactAlpha", dynlib: "libgd.so".}
+proc gdImageColorResolve(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorResolve", dynlib: "libgd.so".}
+proc gdImageColorResolveAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorResolveAlpha", dynlib: "libgd.so".}
 
 
 
@@ -276,21 +276,48 @@ proc gd_create_from*(fd: FILE, content_type: gdFileExtension = PNG): gdImagePtr 
 proc gd_create_from_file*(filename: string): gdImagePtr = gdImageCreateFromFile(cast[cstring](filename))
 
 
-proc gd_set_color*(im: gdImagePtr, r: int, g: int, b: int): int = cast[int](im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b)))
-proc gd_set_color*(im: gdImagePtr, r: int, g: int, b: int, a: int): int = im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a))
-proc gd_set_color*(im: gdImagePtr, hexcolor: string): int =
+proc gd_set_color*(im: gdImagePtr, r: int, g: int, b: int, color_method: gdColorMethod = ALLOCATE): int =
+  case color_method:
+    of ALLOCATE:
+      cast[int](im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b)))
+    of CLOSEST:
+      cast[int](im.gdImageColorClosest(cast[cint](r), cast[cint](g), cast[cint](b)))
+    of CLOSEST_HWB:
+      cast[int](im.gdImageColorClosestHWB(cast[cint](r), cast[cint](g), cast[cint](b)))      
+    of EXACT:
+      cast[int](im.gdImageColorExact(cast[cint](r), cast[cint](g), cast[cint](b)))
+    of RESOLVE:
+      cast[int](im.gdImageColorResolve(cast[cint](r), cast[cint](g), cast[cint](b)))
+    else:
+      0
+
+proc gd_set_color*(im: gdImagePtr, r: int, g: int, b: int, a: int, color_method: gdColorMethod = ALLOCATE): int =
+  case color_method:
+    of ALLOCATE:
+      cast[int](im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
+    of CLOSEST:
+      cast[int](im.gdImageColorClosestAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
+    of EXACT:
+      cast[int](im.gdImageColorExactAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
+    of RESOLVE:
+      cast[int](im.gdImageColorResolveAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
+    else:
+      0
+
+
+proc gd_set_color*(im: gdImagePtr, hexcolor: string, color_method: gdColorMethod = ALLOCATE): int =
   if hexcolor[0] == '#':
     if hexcolor.len == 7:
       var r = 0; discard parseHex("0x$1" % hexcolor[1..2], r)
       var g = 0; discard parseHex("0x$1" % hexcolor[3..4], g)
       var b = 0; discard parseHex("0x$1" % hexcolor[5..6], b)
-      return cast[int](im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b)))
+      return im.gd_set_color(r, g, b, color_method)
     if hexcolor.len == 9:
       var r = 0; discard parseHex("0x$1" % hexcolor[1..2], r)
       var g = 0; discard parseHex("0x$1" % hexcolor[3..4], g)
       var b = 0; discard parseHex("0x$1" % hexcolor[5..6], b)
       var a = 0; discard parseHex("0x$1" % hexcolor[7..8], a)
-      return cast[int](im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
+      return im.gd_set_color(r, g, b, a, color_method)
   return 0
 
 template gd_background_color*(args: varargs[untyped]): untyped = gd_set_color(args)

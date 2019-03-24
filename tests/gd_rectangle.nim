@@ -10,7 +10,7 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd im, 128, 128:
-    let white = im.gdSetColor(225, 255, 255)
+    let white = im.gdSetColor(255, 255, 255)
     let red = im.gdSetColor(255, 0, 0)
 
     im.gdSetThickness(4)
