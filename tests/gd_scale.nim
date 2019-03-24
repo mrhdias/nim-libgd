@@ -12,7 +12,8 @@ proc main() =
   let png_img = open("test_img.jpg", fmRead)
   withGd img, png_img, JPEG:
 
-    let newimg = img.gdScale(200, 100)
+    var (w, h) = img.gdImageSize()
+    let newimg = img.gdScale(int(w.float * 0.5), int(h.float * 0.5))
 
     let png_out = open(outputsDir / "test_gd_scale.png", fmWrite)
     newimg.gdWritePng(png_out)

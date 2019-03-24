@@ -270,6 +270,7 @@ proc gd_create_from*(fd: FILE, content_type: gdFileExtension = PNG): gdImagePtr 
 
 proc gd_create_from_file*(filename: string): gdImagePtr = gdImageCreateFromFile(cast[cstring](filename))
 
+proc gd_image_size*(src: gdImagePtr): (int, int) = (cast[int](src.sx), cast[int](src.sy))
 
 proc gd_set_color*(im: gdImagePtr, r: int, g: int, b: int, color_method: gdColorMethod = ALLOCATE): int =
   case color_method:
@@ -437,7 +438,7 @@ proc gd_set_thickness*(im: gdImagePtr, thickness: int) = im.gdImageSetThickness(
 
 proc gd_set_anti_aliased*(im: gdImagePtr, color: int) = im.gdImageSetAntiAliased(cast[cint](color))
 
-proc gd_scale*(src: gdImagePtr, new_width: cuint, new_height: cuint): gdImagePtr = src.gdImageScale(cast[cuint](new_width), cast[cuint](new_height))
+proc gd_scale*(src: gdImagePtr, new_width: int, new_height: int): gdImagePtr = src.gdImageScale(cast[cuint](new_width), cast[cuint](new_height))
 
 
 # Begin Image Filters
