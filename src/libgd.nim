@@ -252,14 +252,9 @@ proc gd_create*(width: int, height: int): gdImagePtr = gdImageCreate(cast[cint](
 proc gd_destroy*(im: gdImagePtr) = im.gdImageDestroy()
 
 
-proc gd_write*(im: gdImagePtr, output: File, content_type: gdFileExtension, quality: int = -1) =
-  case content_type:
-    of GIF:
-      im.gdImageGif(cast[ptr FILE](output))
-    of JPEG:
-      im.gdImageJpeg(cast[ptr FILE](output), cast[cint](quality))
-    else:
-      im.gdImagePng(cast[ptr FILE](output))
+proc gd_write_gif*(im: gdImagePtr, output: File) = im.gdImageGif(cast[ptr FILE](output))
+proc gd_write_jpeg*(im: gdImagePtr, output: File, quality: int = -1) = im.gdImageJpeg(cast[ptr FILE](output), cast[cint](quality))
+proc gd_write_png*(im: gdImagePtr, output: File) = im.gdImagePng(cast[ptr FILE](output))
 
 
 proc gd_create_from*(fd: FILE, content_type: gdFileExtension = PNG): gdImagePtr =
@@ -324,46 +319,48 @@ template gd_background_color*(args: varargs[untyped]): untyped = gd_set_color(ar
 template gd_foreground_color*(args: varargs[untyped]): untyped = gd_set_color(args)
 
 
+# Begin Drawing Functions
+
 proc gd_set_pixel*(im: gdImagePtr, point: array[2,int], color: int = -1) =
   im.gdImageSetPixel(cast[cint](point[0]), cast[cint](point[1]), cast[cint](color))
 
 
-proc gd_line*(im: gdImagePtr, start_point: array[2,int], end_point: array[2,int], color: int = -1, dashed: bool = false) =
+proc gd_draw_line*(im: gdImagePtr, start_point: array[2,int], end_point: array[2,int], color: int = -1, dashed: bool = false) =
   if dashed:
     im.gdImageDashedLine(cast[cint](start_point[0]), cast[cint](start_point[1]), cast[cint](end_point[0]), cast[cint](end_point[1]), cast[cint](color))
   else:
     im.gdImageLine(cast[cint](start_point[0]), cast[cint](start_point[1]), cast[cint](end_point[0]), cast[cint](end_point[1]), cast[cint](color))
 
 
-proc gd_rectangle*(im: gdImagePtr, start_corner: array[2,int], end_corner: array[2,int], color: int, fill: bool = false) =
+proc gd_draw_rectangle*(im: gdImagePtr, start_corner: array[2,int], end_corner: array[2,int], color: int, fill: bool = false) =
   if fill:
     im.gdImageFilledRectangle(cast[cint](start_corner[0]), cast[cint](start_corner[1]), cast[cint](end_corner[0]), cast[cint](end_corner[1]), cast[cint](color))
   else:
     im.gdImageRectangle(cast[cint](start_corner[0]), cast[cint](start_corner[1]), cast[cint](end_corner[0]), cast[cint](end_corner[1]), cast[cint](color))
 
 
-proc gd_arc*(im: gdImagePtr, center:  array[2,int], axis: array[2,int], angles: array[2,int], color: int, fill: bool = false, style: int = 0) =
+proc gd_draw_arc*(im: gdImagePtr, center:  array[2,int], axis: array[2,int], angles: array[2,int], color: int, fill: bool = false, style: int = 0) =
   if fill:
     im.gdImageFilledArc(cast[cint](center[0]), cast[cint](center[1]), cast[cint](axis[0]), cast[cint](axis[1]), cast[cint](angles[0]), cast[cint](angles[1]), cast[cint](color), cast[cint](style))
   else:
     im.gdImageArc(cast[cint](center[0]), cast[cint](center[1]), cast[cint](axis[0]), cast[cint](axis[1]), cast[cint](angles[0]), cast[cint](angles[1]), cast[cint](color))
 
 
-proc gd_ellipse*(im: gdImagePtr, center: array[2,int], axis: array[2,int], color: int, fill: bool = false) =
+proc gd_draw_ellipse*(im: gdImagePtr, center: array[2,int], axis: array[2,int], color: int, fill: bool = false) =
   if fill:
     im.gdImageFilledEllipse(cast[cint](center[0]), cast[cint](center[1]), cast[cint](axis[0]), cast[cint](axis[1]), cast[cint](color))
   else:
     im.gdImageEllipse(cast[cint](center[0]), cast[cint](center[1]), cast[cint](axis[0]), cast[cint](axis[1]), cast[cint](color))
 
 
-proc gd_circle*(im: gdImagePtr, center: array[2,int], radius: int, color: int = -1, fill: bool = false) =
+proc gd_draw_circle*(im: gdImagePtr, center: array[2,int], radius: int, color: int = -1, fill: bool = false) =
   if fill:
     im.gdImageFilledEllipse(cast[cint](center[0]), cast[cint](center[1]), cast[cint](radius), cast[cint](radius), cast[cint](color))
   else:
     im.gdImageEllipse(cast[cint](center[0]), cast[cint](center[1]), cast[cint](radius), cast[cint](radius), cast[cint](color))
 
 
-proc gd_polygon*(im: gdImagePtr, points: openArray[array[0..1, int]], color: int, fill: bool = false, open: bool = false) =
+proc gd_draw_polygon*(im: gdImagePtr, points: openArray[array[0..1, int]], color: int, fill: bool = false, open: bool = false) =
   var pts: seq[gdPoint]
   for idx, point in points:
     var p: gdPoint
@@ -379,7 +376,7 @@ proc gd_polygon*(im: gdImagePtr, points: openArray[array[0..1, int]], color: int
     im.gdImagePolygon(cast[gdPointPtr](addr pts[0]), cast[cint](pts.len), cast[cint](color))
 
 
-proc gd_regular_polygon*(im: gdImagePtr, center: array[2,int], sides: int, radius: int, start_angle: int = 0, color: int, fill: bool = false, open: bool = false) =
+proc gd_draw_regular_polygon*(im: gdImagePtr, center: array[2,int], sides: int, radius: int, start_angle: int = 0, color: int, fill: bool = false, open: bool = false) =
 
   if sides < 3:
     raise newException(GDRegularPolygonError, "The number of sides can not be less than 3")
@@ -405,7 +402,7 @@ proc gd_regular_polygon*(im: gdImagePtr, center: array[2,int], sides: int, radiu
   else:
     im.gdImagePolygon(cast[gdPointPtr](addr bag[0]), cast[cint](bag.len), cast[cint](color))
 
-
+# End Drawing Functions
 
 
 proc gd_flip*(im: gdImagePtr, direction: gdFlipDirection) =
@@ -443,24 +440,27 @@ proc gd_set_anti_aliased*(im: gdImagePtr, color: int) = im.gdImageSetAntiAliased
 proc gd_scale*(src: gdImagePtr, new_width: cuint, new_height: cuint): gdImagePtr = src.gdImageScale(cast[cuint](new_width), cast[cuint](new_height))
 
 
-# Image Filters
-proc gd_contrast*(src: gdImagePtr, contrast: float): bool =
+# Begin Image Filters
+
+proc gd_filter_contrast*(src: gdImagePtr, contrast: float): bool =
   if src.gdImageContrast(cast[cdouble](contrast)) == 0: false else: true
-proc gd_brightness*(src: gdImagePtr, brightness: int): bool = 
+proc gd_filter_brightness*(src: gdImagePtr, brightness: int): bool = 
   if src.gdImageBrightness(cast[cint](brightness)) == 0: false else: true
-proc gd_gray_scale*(src: gdImagePtr): bool =
+proc gd_filter_gray_scale*(src: gdImagePtr): bool =
   if cast[cint](src.gdImageGrayScale()) == 0: false else: true
-proc gd_negate*(src: gdImagePtr): bool =
+proc gd_filter_negate*(src: gdImagePtr): bool =
   if cast[cint](src.gdImageNegate()) == 0: false else: true
-proc gd_emboss*(src: gdImagePtr): bool =
+proc gd_filter_emboss*(src: gdImagePtr): bool =
   if cast[cint](src.gdImageEmboss()) == 0: false else: true
-proc gd_gaussian_blur*(im: gdImagePtr): bool =
+proc gd_filter_gaussian_blur*(im: gdImagePtr): bool =
   if cast[cint](im.gdImageGaussianBlur()) == 0: false else: true
-proc gd_smooth*(im: gdImagePtr, weight: float): bool =
+proc gd_filter_smooth*(im: gdImagePtr, weight: float): bool =
   if cast[cint](im.gdImageSmooth(weight)) == 0: false else: true
-proc gd_edge_detect_quick*(src: gdImagePtr): bool =
+proc gd_filter_edge_detect_quick*(src: gdImagePtr): bool =
   if cast[cint](src.gdImageEdgeDetectQuick()) == 0: false else: true
-proc gd_selective_blur*(src: gdImagePtr): bool =
+proc gd_filter_selective_blur*(src: gdImagePtr): bool =
   if cast[cint](src.gdImageSelectiveBlur()) == 0: false else: true
-proc gd_mean_removal*(src: gdImagePtr): bool =
+proc gd_filter_mean_removal*(src: gdImagePtr): bool =
   if cast[cint](src.gdImageMeanRemoval()) == 0: false else: true
+
+# End Image Filters

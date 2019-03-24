@@ -26,10 +26,10 @@ proc kochCurve(img: gdImagePtr, x1: float, y1: float, x2: float, y2: float, iter
     img.kochCurve(x5, y5, x4, y4, iter - 1)
     img.kochCurve(x4, y4, x2, y2, iter - 1)
   else:
-    img.gdLine(startPoint=[x1.int, y1.int], endPoint=[x3.int, y3.int])
-    img.gdLine(startPoint=[x3.int, y3.int], endPoint=[x5.int, y5.int])
-    img.gdLine(startPoint=[x5.int, y5.int], endPoint=[x4.int, y4.int])
-    img.gdLine(startPoint=[x4.int, y4.int], endPoint=[x2.int, y2.int])
+    img.gdDrawLine(startPoint=[x1.int, y1.int], endPoint=[x3.int, y3.int])
+    img.gdDrawLine(startPoint=[x3.int, y3.int], endPoint=[x5.int, y5.int])
+    img.gdDrawLine(startPoint=[x5.int, y5.int], endPoint=[x4.int, y4.int])
+    img.gdDrawLine(startPoint=[x4.int, y4.int], endPoint=[x2.int, y2.int])
 
 
 proc main() =
@@ -41,7 +41,7 @@ proc main() =
     img.kochCurve(100, 100, 400, 400, iterations)
 
     let png_out = open("koch_curve.png", fmWrite)
-    img.gdWrite(png_out, content_type=PNG)
+    img.gdWritePng(png_out)
     png_out.close()
 
 

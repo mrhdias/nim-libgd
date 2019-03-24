@@ -1,5 +1,5 @@
 #
-# gdSelectiveBlur
+# gdFilterContrast
 #
 from os import getTempDir, `/`, existsOrCreateDir, removeDir
 import libgd
@@ -12,15 +12,15 @@ proc main() =
   let png_img = open("test_img.jpg", fmRead)
   withGd img, png_img, JPEG:
 
-    if img.gdSelectiveBlur():
+    if img.gdFilterContrast(-50):
       echo "success"
 
-    let png_out = open(outputsDir / "test_gd_selective_blur.png", fmWrite)
-    img.gdWrite(png_out, content_type=PNG)
+    let png_out = open(outputsDir / "test_gd_filter_contrast.png", fmWrite)
+    img.gdWritePng(png_out)
     png_out.close()
 
   png_img.close()
 
-  # removeDir(outputsDir)
+  removeDir(outputsDir)
 
 main()

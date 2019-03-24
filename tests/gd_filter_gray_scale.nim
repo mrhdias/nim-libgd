@@ -1,5 +1,5 @@
 #
-# gdMeanRemoval
+# gdFilterGrayScale
 #
 from os import getTempDir, `/`, existsOrCreateDir, removeDir
 import libgd
@@ -12,11 +12,11 @@ proc main() =
   let png_img = open("test_img.jpg", fmRead)
   withGd img, png_img, JPEG:
 
-    if img.gdMeanRemoval():
+    if img.gdFilterGrayScale():
       echo "success"
 
-    let png_out = open(outputsDir / "test_gd_mean_removal.png", fmWrite)
-    img.gdWrite(png_out, content_type=PNG)
+    let png_out = open(outputsDir / "test_gd_filter_gray_scale.png", fmWrite)
+    img.gdWritePng(png_out)
     png_out.close()
 
   png_img.close()

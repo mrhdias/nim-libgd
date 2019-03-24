@@ -27,10 +27,10 @@ proc main() =
       let y = r * cos(angle) + height / 2
       fi = fi / (fn / 5)
       
-      img.gdCircle(center=[x.int, y.int], radius=fi.int)
+      img.gdDrawCircle(center=[x.int, y.int], radius=fi.int)
 
     let png_out = open("sunflower_fractal.png", fmWrite)
-    img.gdWrite(png_out, content_type=PNG)
+    img.gdWritePng(png_out)
     png_out.close()
 
 main()

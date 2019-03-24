@@ -1,5 +1,5 @@
 #
-# gdGrayScale
+# gdScale
 #
 from os import getTempDir, `/`, existsOrCreateDir, removeDir
 import libgd
@@ -12,11 +12,10 @@ proc main() =
   let png_img = open("test_img.jpg", fmRead)
   withGd img, png_img, JPEG:
 
-    if img.gdGrayScale():
-      echo "success"
+    let newimg = img.gdScale(200, 100)
 
-    let png_out = open(outputsDir / "test_gd_gray_scale.png", fmWrite)
-    img.gdWrite(png_out, content_type=PNG)
+    let png_out = open(outputsDir / "test_gd_scale.png", fmWrite)
+    newimg.gdWritePng(png_out)
     png_out.close()
 
   png_img.close()

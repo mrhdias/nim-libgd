@@ -22,7 +22,7 @@ proc main() =
           img.gdSetPixel(point=[x + margin, y + margin])
 
     let png_out = open("sierpinski_triangle.png", fmWrite)
-    img.gdWrite(png_out, content_type=PNG)
+    img.gdWritePng(png_out)
     png_out.close()
 
 
