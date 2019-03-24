@@ -22,7 +22,7 @@ proc main() =
     im.gdPolygon(points=[[200,150],[250,160],[220,210],[100,150]], color=red, fill=false, open=true)  
   
     let png_out = open(outputsDir / "test_gd_polygon.png", fmWrite)
-    im.gdWrite(png_out, content_type=GD_PNG)
+    im.gdWrite(png_out, content_type=PNG)
     png_out.close()
 
   removeDir(outputsDir)

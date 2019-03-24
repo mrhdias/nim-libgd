@@ -30,7 +30,7 @@ proc main() =
       img.gdCircle(center=[x.int, y.int], radius=fi.int)
 
     let png_out = open("sunflower_fractal.png", fmWrite)
-    img.gdWrite(png_out, content_type=GD_PNG)
+    img.gdWrite(png_out, content_type=PNG)
     png_out.close()
 
 main()

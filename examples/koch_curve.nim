@@ -41,7 +41,7 @@ proc main() =
     img.kochCurve(100, 100, 400, 400, iterations)
 
     let png_out = open("koch_curve.png", fmWrite)
-    img.gdWrite(png_out, content_type=GD_PNG)
+    img.gdWrite(png_out, content_type=PNG)
     png_out.close()
 
 

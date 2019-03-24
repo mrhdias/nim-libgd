@@ -105,11 +105,15 @@ type
 
 
 type
-  gdFlipDirection* = enum
-    GD_FLIP_HORIZONTAL, GD_FLIP_VERTICAL, GD_FLIP_BOTH
-
   gdFileExtension* = enum
-    GD_PNG, GD_JPEG, GD_GIF, GD_BMP
+    PNG, JPEG, GIF, BMP
+
+  gdFlipDirection* = enum
+    HORIZONTAL, VERTICAL, BOTH
+
+  gdColorMethod* = enum
+    ALLOCATE, CLOSEST, CLOSEST_HWB, EXACT, RESOLVE
+
 
 proc gdImageCreate(sx: cint; sy: cint): gdImagePtr {.cdecl, importc: "gdImageCreate", dynlib: "libgd.so".}
 const
@@ -229,14 +233,14 @@ template withGd*(img: untyped, width: int, height: int, body: untyped): typed =
     img.gdImageDestroy()
 
 
-template withGd*(img: untyped, fd: File, content_type: gdFileExtension = GD_PNG, body: untyped): typed =
+template withGd*(img: untyped, fd: File, content_type: gdFileExtension = PNG, body: untyped): typed =
   block gd:
     let img = case content_type:
-      of GD_JPEG:
+      of JPEG:
         gdImageCreateFromJpeg(cast[ptr File](fd))
-      of GD_GIF:
+      of GIF:
         gdImageCreateFromGif(cast[ptr File](fd))
-      of GD_BMP:
+      of BMP:
         gdImageCreateFromBmp(cast[ptr File](fd))
       else:
         gdImageCreateFromPng(cast[ptr File](fd))
@@ -250,21 +254,21 @@ proc gd_destroy*(im: gdImagePtr) = im.gdImageDestroy()
 
 proc gd_write*(im: gdImagePtr, output: File, content_type: gdFileExtension, quality: int = -1) =
   case content_type:
-    of GD_GIF:
+    of GIF:
       im.gdImageGif(cast[ptr FILE](output))
-    of GD_JPEG:
+    of JPEG:
       im.gdImageJpeg(cast[ptr FILE](output), cast[cint](quality))
     else:
       im.gdImagePng(cast[ptr FILE](output))
 
 
-proc gd_create_from*(fd: FILE, content_type: gdFileExtension = GD_PNG): gdImagePtr =
+proc gd_create_from*(fd: FILE, content_type: gdFileExtension = PNG): gdImagePtr =
   case content_type:
-    of GD_JPEG:
+    of JPEG:
       gdImageCreateFromJpeg(cast[ptr File](fd))
-    of GD_GIF:
+    of GIF:
       gdImageCreateFromGif(cast[ptr File](fd))
-    of GD_BMP:
+    of BMP:
       gdImageCreateFromBmp(cast[ptr File](fd))
     else:
       gdImageCreateFromPng(cast[ptr File](fd))
@@ -289,8 +293,8 @@ proc gd_set_color*(im: gdImagePtr, hexcolor: string): int =
       return cast[int](im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
   return 0
 
-template gd_background_color*(args: varargs[untyped]): untyped = gd_color(args)
-template gd_foreground_color*(args: varargs[untyped]): untyped = gd_color(args)
+template gd_background_color*(args: varargs[untyped]): untyped = gd_set_color(args)
+template gd_foreground_color*(args: varargs[untyped]): untyped = gd_set_color(args)
 
 
 proc gd_set_pixel*(im: gdImagePtr, point: array[2,int], color: int = -1) =

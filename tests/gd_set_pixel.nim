@@ -17,7 +17,7 @@ proc main() =
       im.gdSetPixel(point=[i, i], color=blue)
 
     let png_out = open(outputsDir / "test_gd_set_pixel.png", fmWrite)
-    im.gdWrite(png_out, content_type=GD_PNG)
+    im.gdWrite(png_out, content_type=PNG)
     png_out.close()
 
   removeDir(outputsDir)

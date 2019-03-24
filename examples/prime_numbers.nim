@@ -48,7 +48,7 @@ proc main() =
     let new_img = im.gdScale(500, 500)
 
     let png_out = open("prime_numbers.png", fmWrite)
-    new_img.gdWrite(png_out, content_type=GD_PNG)
+    new_img.gdWrite(png_out, content_type=PNG)
     png_out.close()
 
 

@@ -15,10 +15,10 @@ proc main() =
     let red = im.gdSetColor(255, 0, 0)
     im.gdRectangle(startCorner=[50, 50], endCorner=[100, 220], color=red)
 
-    im.gdFlip(GD_FLIP_HORIZONTAL)
+    im.gdFlip(HORIZONTAL)
 
     let png_out = open(outputsDir / "test_gd_flip.png", fmWrite)
-    im.gdWrite(png_out, content_type=GD_PNG)
+    im.gdWrite(png_out, content_type=PNG)
     png_out.close()
 
   removeDir(outputsDir)

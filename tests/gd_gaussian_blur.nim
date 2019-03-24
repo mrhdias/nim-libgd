@@ -10,13 +10,13 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   let png_img = open("test_img.jpg", fmRead)
-  withGd img, png_img, GD_JPEG:
+  withGd img, png_img, JPEG:
 
     if img.gdGaussianBlur():
       echo "success"
 
     let png_out = open(outputsDir / "test_gd_gaussian_blur.png", fmWrite)
-    img.gdWrite(png_out, content_type=GD_PNG)
+    img.gdWrite(png_out, content_type=PNG)
     png_out.close()
 
   png_img.close()

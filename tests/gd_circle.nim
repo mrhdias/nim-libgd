@@ -19,7 +19,7 @@ proc main() =
     im.gdCircle(center=[64, 64], radius=20, color=red, fill=true)
 
     let png_out = open(outputsDir / "test_gd_circle.png", fmWrite)
-    im.gdWrite(png_out, content_type=GD_PNG)
+    im.gdWrite(png_out, content_type=PNG)
     png_out.close()
 
   removeDir(outputsDir)

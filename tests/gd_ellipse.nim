@@ -14,7 +14,7 @@ proc main() =
     let green = im.gdSetColor("#0000ff")
     im.gdEllipse(center=[64, 64], axis=[60, 80], color=green, fill=true)
     let png_out = open(outputsDir / "test_gd_ellipse.png", fmWrite)
-    im.gdWrite(png_out, content_type=GD_PNG)
+    im.gdWrite(png_out, content_type=PNG)
     png_out.close()
 
   removeDir(outputsDir)
