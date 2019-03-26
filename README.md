@@ -3,7 +3,7 @@ Nim Wrapper for LibGD 2.x
 
 Work in progress...
 
-## Example
+## Example of Usage
 
 ```nim
 import libgd
@@ -28,6 +28,10 @@ main()
 ### Image from Examples
 
 ![Newton Fractal](examples/outputs/newton_fractal.png)
+
+## How to install nim-libgd with Nimble?
+
+Run the [Nimble](https://github.com/nim-lang/nimble) install command: $ nimble install https://github.com/mrhdias/nim-libgd
 
 ## Functions
 
