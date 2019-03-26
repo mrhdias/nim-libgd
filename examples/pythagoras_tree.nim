@@ -36,7 +36,7 @@ proc main() =
   withGd imageCreate(img_width, img_height) as img:
     let white = img.setColor(0xffffffff)
     img.drawSquares(340, 550, 460, 550, 0)
-    let png_out = open("pythagoras_tree.png", fmWrite)
+    let png_out = open("outputs/pythagoras_tree.png", fmWrite)
     img.writePng(png_out)
     png_out.close()
 

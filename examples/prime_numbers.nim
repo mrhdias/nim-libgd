@@ -45,7 +45,7 @@ proc main() =
     spiral(img_width, img_height)
 
     withGd img.imageScale(500, 500) as new_img:
-      let png_out = open("prime_numbers.png", fmWrite)
+      let png_out = open("outputs/prime_numbers.png", fmWrite)
       new_img.writePng(png_out)
       png_out.close()
 

@@ -30,7 +30,7 @@ proc main() =
       
       img.drawCircle(center=[x.int, y.int], radius=fi.int)
 
-    let png_out = open("sunflower_fractal.png", fmWrite)
+    let png_out = open("outputs/sunflower_fractal.png", fmWrite)
     img.writePng(png_out)
     png_out.close()
 

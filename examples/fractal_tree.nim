@@ -31,7 +31,7 @@ proc main() =
 
     fractalTree(img, int(width / 2), int(height * 9 / 10), length, 0, depth)
 
-    let png_out = open("fractal_tree.png", fmWrite)
+    let png_out = open("outputs/fractal_tree.png", fmWrite)
     img.writePng(png_out)
     png_out.close()
 

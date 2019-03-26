@@ -40,7 +40,7 @@ proc main() =
 
     img.kochCurve(100, 100, 400, 400, iterations)
 
-    let png_out = open("koch_curve.png", fmWrite)
+    let png_out = open("outputs/koch_curve.png", fmWrite)
     img.writePng(png_out)
     png_out.close()
 

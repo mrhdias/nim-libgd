@@ -44,7 +44,7 @@ proc main() =
         let b = j mod 16 * 16
         img.setPixel(point=[x, y], color=c)
 
-    let png_out = open("newton_fractal.png", fmWrite)
+    let png_out = open("outputs/newton_fractal.png", fmWrite)
     img.writePng(png_out)
     png_out.close()
 

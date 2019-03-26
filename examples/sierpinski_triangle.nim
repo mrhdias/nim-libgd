@@ -21,7 +21,7 @@ proc main() =
         if (x and y) == 0:
           img.setPixel(point=[x + margin, y + margin])
 
-    let png_out = open("sierpinski_triangle.png", fmWrite)
+    let png_out = open("outputs/sierpinski_triangle.png", fmWrite)
     img.writePng(png_out)
     png_out.close()
 
