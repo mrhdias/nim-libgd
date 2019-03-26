@@ -25,6 +25,9 @@ proc main() =
 
 main()
 ```
+### Image from Examples
+
+![Newton Fractal](examples/outputs/newton_fractal.png)
 
 ## Functions
 
