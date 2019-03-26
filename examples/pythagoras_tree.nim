@@ -10,7 +10,7 @@ const
   maxDepth = 11 
   colFactor = (255 / maxDepth).int
 
-proc drawSquares(img: gdImagePtr, ax: int, ay: int, bx: int, by: int, depth: int) =
+proc drawSquares(img: gdImagePtr, ax, ay, bx, by, depth: int) =
 
   if depth > maxDepth:
     return
