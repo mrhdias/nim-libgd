@@ -140,7 +140,7 @@ proc gdImageColorExactAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint):
 proc gdImageColorResolve(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorResolve", dynlib: "libgd.so".}
 proc gdImageColorResolveAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorResolveAlpha", dynlib: "libgd.so".}
 
-
+proc gdImageColorTransparent(im: gdImagePtr; color: cint) {.cdecl, importc: "gdImageColorTransparent", dynlib: "libgd.so".}
 
 proc gdImageSetPixel(im: gdImagePtr; x: cint; y: cint; color: cint) {.cdecl, importc: "gdImageSetPixel", dynlib: "libgd.so".}
 proc gdImageGetPixel*(im: gdImagePtr; x: cint; y: cint): cint {.cdecl, importc: "gdImageGetPixel", dynlib: "libgd.so".}
@@ -163,7 +163,7 @@ proc gdImageArc(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; s: cint; e
 proc gdImageEllipse(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; color: cint) {.cdecl, importc: "gdImageEllipse", dynlib: "libgd.so".}
 proc gdImageFilledEllipse(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; color: cint) {.cdecl, importc: "gdImageFilledEllipse", dynlib: "libgd.so".}
 proc gdImageFillToBorder*(im: gdImagePtr; x: cint; y: cint; border: cint; color: cint) {.cdecl, importc: "gdImageFillToBorder", dynlib: "libgd.so".}
-proc gdImageFill*(im: gdImagePtr; x: cint; y: cint; color: cint) {.cdecl, importc: "gdImageFill", dynlib: "libgd.so".}
+proc gdImageFill(im: gdImagePtr; x: cint; y: cint; color: cint) {.cdecl, importc: "gdImageFill", dynlib: "libgd.so".}
 proc gdImageCopy*(dst: gdImagePtr; src: gdImagePtr; dstX: cint; dstY: cint; srcX: cint; srcY: cint; w: cint; h: cint) {.cdecl, importc: "gdImageCopy", dynlib: "libgd.so".}
 proc gdImageCopyMerge*(dst: gdImagePtr; src: gdImagePtr; dstX: cint; dstY: cint; srcX: cint; srcY: cint; w: cint; h: cint; pct: cint) {.cdecl, importc: "gdImageCopyMerge", dynlib: "libgd.so".}
 proc gdImageCopyMergeGray*(dst: gdImagePtr; src: gdImagePtr; dstX: cint; dstY: cint; srcX: cint; srcY: cint; w: cint; h: cint; pct: cint) {.cdecl, importc: "gdImageCopyMergeGray", dynlib: "libgd.so".}
@@ -340,10 +340,13 @@ template background_color*(args: varargs[untyped]): untyped = set_color(args)
 template foreground_color*(args: varargs[untyped]): untyped = set_color(args)
 
 
+# https://www.php.net/manual/en/ref.image.php
+proc color_transparent*(im: gdImagePtr, color: int) = im.gdImageColorTransparent(cast[cint](color))
+proc image_fill*(im: gdImagePtr, start_point: array[2,int], color: int = -1) = im.gdImageFill(cast[cint](start_point[0]), cast[cint](start_point[1]), cast[cint](color))
+
 # Begin Drawing Functions
 
-proc set_pixel*(im: gdImagePtr, point: array[2,int], color: int = -1) =
-  im.gdImageSetPixel(cast[cint](point[0]), cast[cint](point[1]), cast[cint](color))
+proc set_pixel*(im: gdImagePtr, point: array[2,int], color: int = -1) = im.gdImageSetPixel(cast[cint](point[0]), cast[cint](point[1]), cast[cint](color))
 
 
 proc draw_line*(im: gdImagePtr, start_point: array[2,int], end_point: array[2,int], color: int = -1, dashed: bool = false) =

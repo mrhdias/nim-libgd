@@ -20,7 +20,7 @@ proc drawSquares(img: gdImagePtr, ax: int, ay: int, bx: int, by: int, depth: int
   let (x4, y4) = (ax - dy, ay - dx)
   let (x5, y5) = (x4 + ((dx - dy).float / 2).int, (y4 - ((dx + dy).float / 2).int))
 
-  let c = img.setColor(0, depth * colFactor, 0)
+  let c = img.setColor(0, depth * colFactor, 0, 0)
 
   img.drawLine(startPoint=[ax, ay], endPoint=[bx, by], color=c)
   img.drawLine(startPoint=[bx, by], endPoint=[x3, y3], color=c)
@@ -30,11 +30,12 @@ proc drawSquares(img: gdImagePtr, ax: int, ay: int, bx: int, by: int, depth: int
   img.drawSquares(x4, y4, x5, y5, depth + 1)
   img.drawSquares(x5, y5, x3, y3, depth + 1)
 
-
 proc main() =
 
-  withGd imageCreate(img_width, img_height) as img:
-    let white = img.setColor(0xffffffff)
+  withGd imageCreate(img_width, img_height, true) as img:
+    let white = img.setColor(255, 255, 255, 0)
+    img.imageFill(startPoint=[0, 0], color=white)
+    
     img.drawSquares(340, 550, 460, 550, 0)
     let png_out = open("outputs/pythagoras_tree.png", fmWrite)
     img.writePng(png_out)
