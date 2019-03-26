@@ -1,5 +1,8 @@
 #
-#
+# Copyright (C) 2019 Henrique Dias
+# MIT License - Look at LICENSE for details.
+# nim-libgd package is an interface to the GD library written by
+# Thomas Bouttel.
 #
 from parseutils import parseHex
 from math import sin, cos, degToRad, `mod`
