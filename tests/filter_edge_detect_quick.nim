@@ -1,5 +1,5 @@
 #
-# gdScale
+# filterEdgeDetectQuick
 #
 from os import getTempDir, `/`, existsOrCreateDir, removeDir
 import libgd
@@ -10,13 +10,13 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   let png_img = open("test_img.jpg", fmRead)
-  withGd img, png_img, JPEG:
+  withGd createImageFrom(png_img, JPEG) as img:
 
-    var (w, h) = img.gdImageSize()
-    let newimg = img.gdScale(int(w.float * 0.5), int(h.float * 0.5))
+    if img.filterEdgeDetectQuick():
+      echo "success"
 
-    let png_out = open(outputsDir / "test_gd_scale.png", fmWrite)
-    newimg.gdWritePng(png_out)
+    let png_out = open(outputsDir / "test_filter_edge_detect_quick.png", fmWrite)
+    img.writePng(png_out)
     png_out.close()
 
   png_img.close()

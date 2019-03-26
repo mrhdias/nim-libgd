@@ -3,29 +3,56 @@ Nim Wrapper for LibGD 2.x
 
 Work in progress...
 
+## Example
+
+```nim
+import libgd
+
+proc main() =
+
+  withGd imageCreate(300, 300) as img:
+    let white = img.backgroundColor(0xffffff)
+    let green = img.setColor(0, 0, 255)
+
+    img.setThickness(4)
+    img.drawRectangle(
+      startCorner=[10, 10],
+      endCorner=[300 - 10, 300 - 10],
+      color=green)
+    let png_out = open("test.png", fmWrite)
+    img.writePng(png_out)
+    png_out.close()
+
+main()
+```
+
+## Functions
+
+Work in progress...
+
 ### Drawing Functions
 
 ```nim
-proc gdSetPixel(
+proc setPixel(
   img: gdImagePtr,
   point: array[2,int],
   color: int = -1
 )
-proc gdDrawLine(
+proc drawLine(
   img: gdImagePtr,
   start_point: array[2,int],
   end_point: array[2,int],
   color: int = -1,
   dashed: bool = false
 )
-proc gdDrawRectangle(
+proc drawRectangle(
   img: gdImagePtr,
   start_corner: array[2,int],
   end_corner: array[2,int],
   color: int,
   fill: bool = false
 )
-proc gdDrawArc(
+proc drawArc(
   img: gdImagePtr,
   center: array[2,int],
   axis: array[2,int],
@@ -34,28 +61,28 @@ proc gdDrawArc(
   fill: bool = false,
   style: int = 0
 )
-proc gdDrawEllipse(
+proc drawEllipse(
   img: gdImagePtr,
   center: array[2,int],
   axis: array[2,int],
   color: int,
   fill: bool = false
 )
-proc gdDrawCircle(
+proc drawCircle(
   img: gdImagePtr,
   center: array[2,int],
   radius: int,
   color: int = -1,
   fill: bool = false
 )
-proc gdDrawPolygon(
+proc drawPolygon(
   img: gdImagePtr,
   points: openArray[array[0..1, int]],
   color: int,
   fill: bool = false,
   open: bool = false
 )
-proc gdDrawRegularPolygon(
+proc drawRegularPolygon(
   img: gdImagePtr,
   center: array[2,int],
   sides: int,
@@ -69,14 +96,14 @@ proc gdDrawRegularPolygon(
 ### Image Filters
 
 ```nim
-proc gdFilterContrast(src: gdImagePtr, contrast: float): bool
-proc gdFilterBrightness(src: gdImagePtr, brightness: int): bool
-proc gdFilterGrayScale(src: gdImagePtr): bool
-proc gdFilterNegate(src: gdImagePtr): bool
-proc gdFilterEmboss(src: gdImagePtr): bool
-proc gdFilterGaussianBlur(src: gdImagePtr): bool
-proc gdFilterSmooth(src: gdImagePtr, weight: float): bool
-proc gdFilterEdgeDetectQuick(src: gdImagePtr): bool
-proc gdFilterSelectiveBlur(src: gdImagePtr): bool
-proc gdFilterMeanRemoval(src: gdImagePtr): bool
+proc filterContrast(src: gdImagePtr, contrast: float): bool
+proc filterBrightness(src: gdImagePtr, brightness: int): bool
+proc filterGrayScale(src: gdImagePtr): bool
+proc filterNegate(src: gdImagePtr): bool
+proc filterEmboss(src: gdImagePtr): bool
+proc filterGaussianBlur(src: gdImagePtr): bool
+proc filterSmooth(src: gdImagePtr, weight: float): bool
+proc filterEdgeDetectQuick(src: gdImagePtr): bool
+proc filterSelectiveBlur(src: gdImagePtr): bool
+proc filterMeanRemoval(src: gdImagePtr): bool
 ```

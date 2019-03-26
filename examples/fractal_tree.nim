@@ -17,21 +17,22 @@ proc fractalTree(img: gdImagePtr, x: int, y: int, distance: int, direction: floa
   let x2 = x + int(distance.float * sin(direction * PI/180))
   let y2 = y - int(distance.float * cos(direction * PI/180))
 
-  img.gdDrawLine(startPoint=[x,y], endPoint=[x2,y2])
+  img.drawLine(startPoint=[x,y], endPoint=[x2,y2])
   if depth > 0:
     fractalTree(img, x2, y2, int(distance.float * frac), direction - angle, depth - 1)
     fractalTree(img, x2, y2, int(distance.float * frac), direction + angle, depth - 1)
 
 proc main() =
-  withGd img, width, height:
 
-    let white = img.gdBackgroundColor("#ffffff")
-    let green = img.gdForegroundColor("#00ff00")
+  withGd imageCreate(width, height) as img:
+
+    let white = img.backgroundColor(0xffffff)
+    let green = img.foregroundColor(0x00ff00)
 
     fractalTree(img, int(width / 2), int(height * 9 / 10), length, 0, depth)
 
     let png_out = open("fractal_tree.png", fmWrite)
-    img.gdWritePng(png_out)
+    img.writePng(png_out)
     png_out.close()
 
 main()

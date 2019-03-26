@@ -11,9 +11,10 @@ const
   numberOfSeeds = 3000
 
 proc main() =
-  withGd img, width, height:
-    let white = img.gdBackgroundColor("#ffffff")
-    let blue = img.gdForegroundColor("#0000ff")
+
+  withGd imageCreate(width, height) as img:
+    let white = img.backgroundColor(0xffffff)
+    let darkorange = img.foregroundColor(0xff8c00)
 
     let c = (sqrt(5.float) + 1) / 2
 
@@ -27,10 +28,10 @@ proc main() =
       let y = r * cos(angle) + height / 2
       fi = fi / (fn / 5)
       
-      img.gdDrawCircle(center=[x.int, y.int], radius=fi.int)
+      img.drawCircle(center=[x.int, y.int], radius=fi.int)
 
     let png_out = open("sunflower_fractal.png", fmWrite)
-    img.gdWritePng(png_out)
+    img.writePng(png_out)
     png_out.close()
 
 main()

@@ -1,5 +1,5 @@
 #
-# gdFilterBrightness
+# filterGrayScale
 #
 from os import getTempDir, `/`, existsOrCreateDir, removeDir
 import libgd
@@ -10,14 +10,13 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   let png_img = open("test_img.jpg", fmRead)
-  withGd img, png_img, JPEG:
+  withGd createImageFrom(png_img, JPEG) as img:
 
-    # -255 to 255
-    if img.gdFilterBrightness(50):
+    if img.filterGrayScale():
       echo "success"
 
-    let png_out = open(outputsDir / "test_gd_filter_brightness.png", fmWrite)
-    img.gdWritePng(png_out)
+    let png_out = open(outputsDir / "test_filter_gray_scale.png", fmWrite)
+    img.writePng(png_out)
     png_out.close()
 
   png_img.close()

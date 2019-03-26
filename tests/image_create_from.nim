@@ -1,5 +1,5 @@
 #
-# gdFilterContrast
+# createImageFrom
 #
 from os import getTempDir, `/`, existsOrCreateDir, removeDir
 import libgd
@@ -10,13 +10,10 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   let png_img = open("test_img.jpg", fmRead)
-  withGd img, png_img, JPEG:
+  withGd imageCreateFrom(png_img, JPEG) as img:
 
-    if img.gdFilterContrast(-50):
-      echo "success"
-
-    let png_out = open(outputsDir / "test_gd_filter_contrast.png", fmWrite)
-    img.gdWritePng(png_out)
+    let png_out = open(outputsDir / "test_image_create_from.png", fmWrite)
+    img.writePng(png_out)
     png_out.close()
 
   png_img.close()

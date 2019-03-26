@@ -1,5 +1,5 @@
 #
-# gdFilterEmboss
+# filterSelectiveBlur
 #
 from os import getTempDir, `/`, existsOrCreateDir, removeDir
 import libgd
@@ -10,17 +10,17 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   let png_img = open("test_img.jpg", fmRead)
-  withGd img, png_img, JPEG:
+  withGd createImageFrom(png_img, JPEG) as img:
 
-    if img.gdFilterEmboss():
+    if img.filterSelectiveBlur():
       echo "success"
 
-    let png_out = open(outputsDir / "test_gd_filter_emboss.png", fmWrite)
-    img.gdWritePng(png_out)
+    let png_out = open(outputsDir / "test_filter_selective_blur.png", fmWrite)
+    img.writePng(png_out)
     png_out.close()
 
   png_img.close()
 
-  removeDir(outputsDir)
+  # removeDir(outputsDir)
 
 main()

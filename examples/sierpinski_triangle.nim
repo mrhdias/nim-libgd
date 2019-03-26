@@ -12,17 +12,17 @@ const
 
 proc main() =
 
-  withGd img, width + margin * 2, height + margin * 2:
-    let white = img.gdBackgroundColor("#ffffff")
-    let blue = img.gdForegroundColor("#0000ff")
+  withGd imageCreate(width + margin * 2, height + margin * 2) as img:
+    let white = img.backgroundColor(0xffffff)
+    let blue = img.foregroundColor(0x0000ff)
 
     for y in 0 .. width-1:
       for x in 0 .. width-1:
         if (x and y) == 0:
-          img.gdSetPixel(point=[x + margin, y + margin])
+          img.setPixel(point=[x + margin, y + margin])
 
     let png_out = open("sierpinski_triangle.png", fmWrite)
-    img.gdWritePng(png_out)
+    img.writePng(png_out)
     png_out.close()
 
 
