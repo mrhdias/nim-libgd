@@ -1,5 +1,5 @@
 # nim-libgd
-Nim Wrapper for LibGD 2.x
+Nim Wrapper for [LibGD](https://libgd.github.io/) 2.x
 
 Work in progress...
 
@@ -30,6 +30,10 @@ main()
 ![Newton Fractal](examples/outputs/newton_fractal.png)
 
 ## How to install nim-libgd with Nimble?
+
+You need to have installed the [gd](https://libgd.github.io/) library in your system.
+
+If you use Arch Linux, the library can be installed with: sudo pacman -S gd.
 
 Run the [Nimble](https://github.com/nim-lang/nimble) install command: $ nimble install https://github.com/mrhdias/nim-libgd
 
