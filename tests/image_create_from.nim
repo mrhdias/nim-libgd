@@ -1,5 +1,5 @@
 #
-# createImageFrom
+# imageCreateFrom
 #
 from os import getTempDir, `/`, existsOrCreateDir, removeDir
 import libgd
