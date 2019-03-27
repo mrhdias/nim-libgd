@@ -11,7 +11,7 @@ const
   height = 512
   iterations = 4
 
-proc kochCurve(img: gdImagePtr, x1: float, y1: float, x2: float, y2: float, iter: int): void  =
+proc kochCurve(img: gdImagePtr, x1, y1, x2, y2: float, iter: int): void  =
   let angle = PI / 3 # 60 degrees
   let x3 = (x1 * 2 + x2) / 3
   let y3 = (y1 * 2 + y2) / 3
@@ -43,6 +43,5 @@ proc main() =
     let png_out = open("outputs/koch_curve.png", fmWrite)
     img.writePng(png_out)
     png_out.close()
-
 
 main()
