@@ -356,7 +356,7 @@ proc draw_line*(im: gdImagePtr, start_point: array[2,int], end_point: array[2,in
     im.gdImageLine(cast[cint](start_point[0]), cast[cint](start_point[1]), cast[cint](end_point[0]), cast[cint](end_point[1]), cast[cint](color))
 
 
-proc draw_rectangle*(im: gdImagePtr, start_corner: array[2,int], end_corner: array[2,int], color: int, fill: bool = false) =
+proc draw_rectangle*(im: gdImagePtr, start_corner: array[2,int], end_corner: array[2,int], color: int = -1, fill: bool = false) =
   if fill:
     im.gdImageFilledRectangle(cast[cint](start_corner[0]), cast[cint](start_corner[1]), cast[cint](end_corner[0]), cast[cint](end_corner[1]), cast[cint](color))
   else:
