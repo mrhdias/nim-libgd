@@ -29,6 +29,10 @@ main()
 
 ![Newton Fractal](examples/outputs/newton_fractal.png)
 
+### Graph from Examples
+
+![Cubic Function Graph](examples/outputs/cubic_function_graph.png)
+
 ## How to install nim-libgd with Nimble?
 
 You need to have installed the [gd](https://libgd.github.io/) library in your system.
