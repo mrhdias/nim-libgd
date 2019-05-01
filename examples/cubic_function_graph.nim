@@ -4,7 +4,12 @@
 #
 from os import existsOrCreateDir
 from math import `^`
+import strformat
 import ../src/libgd
+
+proc sprintf(buf, frmt: cstring) {.header: "<stdio.h>",
+                                  importc: "sprintf",
+                                  varargs, noSideEffect.}
 
 proc display_grid(img: gdImagePtr, steps: int, padding: array[4, int], x_axis = true, y_axis: bool = true) =
   let
@@ -80,16 +85,33 @@ proc main() =
 
     img.display_grid(steps, padding, x_axis=true, y_axis=true)
 
-
+    # add x values
     let sx = (max_x - min_x) / steps
+    let pos_x_step = ((width - (padding[0] + padding[2])) / steps).int
     for i in 0 .. steps:
       let n = (min_x.float + sx * i.float).int
-      img.drawString(font=gdFontGetSmall(), position=[(padding[0] - 10) + 31 * i, height - (padding[1] - 10)], text = $n, color=black)
+      var res = ""
+      n.format("3", res)
+      img.drawString(
+        font=gdFontGetSmall(),
+        position=[padding[0] - 12 + pos_x_step * i, height - (padding[1] - 10)],
+        text = res,
+        color=black
+      )
 
+    # add y values
     let sy = (max_y - min_y) / steps
+    let pos_y_step = ((height - (padding[1] + padding[3])) / steps).int
     for i in 0 .. steps:
       let n = (min_y.float + sy * i.float).int
-      img.drawString(font=gdFontGetSmall(), position=[padding[0] - 40, height - (padding[1] + 6 + 50 * i)], text = $n, color=black)
+      var res = ""
+      n.format("5", res)
+      img.drawString(
+        font=gdFontGetSmall(),
+        position=[padding[0] - 40, height - (padding[1] + 7 + pos_y_step * i)],
+        text = res,
+        color=black
+      )
 
     var
       saved_x = 0
