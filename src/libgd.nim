@@ -236,7 +236,7 @@ proc gdImageCreateFromFile(filename: cstring): gdImagePtr {.cdecl, importc: "gdI
 # https://forum.nim-lang.org/t/3205
 macro withGd*(args, body: untyped): untyped =
   if args.kind != nnkInfix or args.len != 3 or not eqIdent(args[0], "as"):
-    error "'(value) as (name)' expected in take, found: '$1'" % [args.repr]
+    error "'(value) as (name)' expected in withGd, found: '$1'" % [args.repr]
 
   let varValue = args[1]
   let varName = args[2]
