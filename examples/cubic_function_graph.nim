@@ -4,12 +4,12 @@
 #
 from os import existsOrCreateDir
 from math import `^`
-import strformat
+from strformat import fmt
 import ../src/libgd
 
-proc sprintf(buf, frmt: cstring) {.header: "<stdio.h>",
-                                  importc: "sprintf",
-                                  varargs, noSideEffect.}
+# proc sprintf(buf, frmt: cstring) {.header: "<stdio.h>",
+#                                   importc: "sprintf",
+#                                   varargs, noSideEffect.}
 
 proc display_grid(img: gdImagePtr, steps: int, padding: array[4, int], x_axis = true, y_axis: bool = true) =
   let
@@ -90,12 +90,10 @@ proc main() =
     let pos_x_step = ((width - (padding[0] + padding[2])) / steps).int
     for i in 0 .. steps:
       let n = (min_x.float + sx * i.float).int
-      var res = ""
-      n.format("3", res)
       img.drawString(
         font=gdFontGetSmall(),
         position=[padding[0] - 12 + pos_x_step * i, height - (padding[1] - 10)],
-        text = res,
+        text = fmt"{n:3}",
         color=black
       )
 
@@ -104,12 +102,10 @@ proc main() =
     let pos_y_step = ((height - (padding[1] + padding[3])) / steps).int
     for i in 0 .. steps:
       let n = (min_y.float + sy * i.float).int
-      var res = ""
-      n.format("5", res)
       img.drawString(
         font=gdFontGetSmall(),
         position=[padding[0] - 40, height - (padding[1] + 7 + pos_y_step * i)],
-        text = res,
+        text = fmt"{n:5}",
         color=black
       )
 
