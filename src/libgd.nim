@@ -293,8 +293,6 @@ proc image_size*(src: gdImagePtr): (int, int) = (cast[int](src.sx), cast[int](sr
 
 proc set_color*(im: gdImagePtr, r: int, g: int, b: int, color_method: gdColorMethod = ALLOCATE): int =
   case color_method:
-    of ALLOCATE:
-      cast[int](im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b)))
     of CLOSEST:
       cast[int](im.gdImageColorClosest(cast[cint](r), cast[cint](g), cast[cint](b)))
     of CLOSEST_HWB:
@@ -304,12 +302,10 @@ proc set_color*(im: gdImagePtr, r: int, g: int, b: int, color_method: gdColorMet
     of RESOLVE:
       cast[int](im.gdImageColorResolve(cast[cint](r), cast[cint](g), cast[cint](b)))
     else:
-      0
+      cast[int](im.gdImageColorAllocate(cast[cint](r), cast[cint](g), cast[cint](b)))
 
 proc set_color*(im: gdImagePtr, r: int, g: int, b: int, a: int, color_method: gdColorMethod = ALLOCATE): int =
   case color_method:
-    of ALLOCATE:
-      cast[int](im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
     of CLOSEST:
       cast[int](im.gdImageColorClosestAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
     of EXACT:
@@ -317,7 +313,7 @@ proc set_color*(im: gdImagePtr, r: int, g: int, b: int, a: int, color_method: gd
     of RESOLVE:
       cast[int](im.gdImageColorResolveAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
     else:
-      0
+      cast[int](im.gdImageColorAllocateAlpha(cast[cint](r), cast[cint](g), cast[cint](b), cast[cint](a)))
 
 
 proc set_color*(im: gdImagePtr, hex_color: int64, color_method: gdColorMethod = ALLOCATE): int =
