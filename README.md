@@ -3,7 +3,7 @@ Nim Wrapper for [LibGD](https://libgd.github.io/) 2.x
 
 Work in progress...
 
-I have tested with the 0.19.6 version of Nim and Linux
+This library has been tested with Nim v0.20.0 (1.0 RC) on Linux
 
 ## Example of Usage
 
