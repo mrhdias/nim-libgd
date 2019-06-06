@@ -10,7 +10,7 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd imageCreate(128, 128) as img:
-    let white = img.setColor(225, 255, 255)
+    discard img.setColor(225, 255, 255)
     let green = img.setColor(0x0000ff)
     img.drawEllipse(center=[64, 64], axis=[60, 80], color=green, fill=true)
     let png_out = open(outputsDir / "test_draw_ellipse.png", fmWrite)
