@@ -13,7 +13,7 @@ import libgd
 proc main() =
 
   withGd imageCreate(300, 300) as img:
-    let white = img.backgroundColor(0xffffff)
+    discard img.backgroundColor(0xffffff)
     let green = img.setColor(0, 0, 255)
 
     img.setThickness(4)
