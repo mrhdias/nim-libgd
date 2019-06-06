@@ -13,8 +13,8 @@ const
 proc main() =
 
   withGd imageCreate(width, height) as img:
-    let white = img.backgroundColor(0xffffff)
-    let darkorange = img.foregroundColor(0xff8c00)
+    discard img.backgroundColor(0xffffff)
+    discard img.foregroundColor(0xff8c00)
 
     let c = (sqrt(5.float) + 1) / 2
 
