@@ -26,8 +26,8 @@ proc main() =
 
   withGd imageCreate(width, height) as img:
 
-    let white = img.backgroundColor(0xffffff)
-    let green = img.foregroundColor(0x00ff00)
+    discard img.backgroundColor(0xffffff)
+    discard img.foregroundColor(0x00ff00)
 
     fractalTree(img, int(width / 2), int(height * 9 / 10), length, 0, depth)
 
