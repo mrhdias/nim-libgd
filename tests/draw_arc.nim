@@ -10,7 +10,7 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd imageCreate(128, 128) as img:
-    let white = img.setColor(225, 255, 255)
+    discard img.setColor(225, 255, 255)
     let blue = img.setColor(0, 0, 255)
     img.drawArc(center=[64, 64], axis=[60, 30], angles=[90, 270], color=blue, style=4, fill=true)
     let png_out = open(outputsDir / "test_draw_arc.png", fmWrite)
