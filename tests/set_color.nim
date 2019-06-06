@@ -10,7 +10,7 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd imageCreate(300, 300) as img:
-    let white = img.setColor(255, 255, 255)
+    discard img.setColor(255, 255, 255)
 
     let yellow = img.setColor(0xffff00)
     img.drawRectangle(startCorner=[20, 100], endCorner=[200, 200], color=yellow, fill=true)
