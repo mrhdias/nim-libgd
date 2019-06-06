@@ -27,11 +27,11 @@ proc main() =
       let zy = (y.float * (yb - ya) / (img_height.float - 1.0)) + ya
       for x in 0 .. img_width - 1:
         let zx = x.float * (xb - xa) / (img_width.float - 1.0) + xa
-        var z: Complex = (re: zx, im: zy)
+        var z = complex(zx, zy)
         var j = 0
         for i in 0 .. maxIt - 1:
           j = i
-          let dz = (f(z + (re: h, im: h)) - f(z)) / (re: h, im: h)
+          let dz = (f(z + complex(h, h)) - f(z)) / complex(h, h)
           let z0 = z - f(z) / dz
           if abs(z0 - z) < eps:
             #echo "Break: " & $j
@@ -39,9 +39,9 @@ proc main() =
           z = z0
 
         let c = img.setColor(j mod 4 * 64, j mod 8 * 32, j mod 16 * 16)
-        let r = j mod 4 * 64
-        let g = j mod 8 * 32
-        let b = j mod 16 * 16
+        # let r = j mod 4 * 64
+        # let g = j mod 8 * 32
+        # let b = j mod 16 * 16
         img.setPixel(point=[x, y], color=c)
 
     let png_out = open("outputs/newton_fractal.png", fmWrite)
