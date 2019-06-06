@@ -35,8 +35,8 @@ proc kochCurve(img: gdImagePtr, x1, y1, x2, y2: float, iter: int): void  =
 proc main() =
 
   withGd imageCreate(width, height) as img:
-    let white = img.backgroundColor(0xffffff)
-    let red = img.foregroundColor(0xff0000)
+    discard img.backgroundColor(0xffffff)
+    discard img.foregroundColor(0xff0000)
 
     img.kochCurve(100, 100, 400, 400, iterations)
 
