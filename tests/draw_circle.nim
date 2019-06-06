@@ -10,7 +10,7 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd imageCreate(128, 128) as img:
-    let white = img.setColor(225, 255, 255)
+    discard img.setColor(225, 255, 255)
 
     let green = img.setColor(0x0000ff)
     img.drawCircle(center=[64, 64], radius=50, color=green, fill=false)
