@@ -10,7 +10,7 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd imageCreate(500, 500) as img:
-    let white = img.setColor(255, 255, 255)
+    discard img.setColor(255, 255, 255)
 
     let red = img.setColor(0xff0000)
     let blue = img.setColor(0x0000ff)
