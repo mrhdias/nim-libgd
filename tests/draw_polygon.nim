@@ -10,7 +10,7 @@ proc main() =
   discard existsOrCreateDir(outputsDir)
 
   withGd imageCreate(500, 500) as img:
-    let white = img.setColor(255, 255, 255)
+    discard img.setColor(255, 255, 255)
 
     let blue = img.setColor(0x0000ff)
     img.drawPolygon(points=[[120,100],[250,100],[250,300],[100,300]], color=blue, fill=false, open=false)
