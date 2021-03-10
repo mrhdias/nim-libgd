@@ -10,6 +10,16 @@ import strutils
 import macros
 from strutils import `%`
 
+when defined(windows): 
+  const 
+    gdlib* = "libgd.dll"
+elif defined(macosx): 
+  const 
+    gdlib* = "libgd.dylib"
+else: 
+  const 
+    gdlib* = "libgd.so"
+
 const
   gdMaxColors* = 256
 
@@ -121,114 +131,114 @@ type
 
 
 
-proc gdImageCreate(sx: cint; sy: cint): gdImagePtr {.cdecl, importc: "gdImageCreate", dynlib: "libgd.so".}
+proc gdImageCreate(sx: cint; sy: cint): gdImagePtr {.cdecl, importc: "gdImageCreate", dynlib: gdlib.}
 
 const
   gdImageCreatePalette* = gdImageCreate
-proc gdImageCreateTrueColor*(sx: cint; sy: cint): gdImagePtr {.cdecl, importc: "gdImageCreateTrueColor", dynlib: "libgd.so".}
+proc gdImageCreateTrueColor*(sx: cint; sy: cint): gdImagePtr {.cdecl, importc: "gdImageCreateTrueColor", dynlib: gdlib.}
 
-proc gdImageDestroy*(im: gdImagePtr) {.cdecl, importc: "gdImageDestroy", dynlib: "libgd.so".}
-
-
-proc gdImageColorAllocate(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorAllocate", dynlib: "libgd.so".}
-proc gdImageColorAllocateAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorAllocateAlpha", dynlib: "libgd.so".}
-proc gdImageColorClosest(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorClosest", dynlib: "libgd.so".}
-proc gdImageColorClosestAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorClosestAlpha", dynlib: "libgd.so".}
-proc gdImageColorClosestHWB(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorClosestHWB", dynlib: "libgd.so".}
-proc gdImageColorExact(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorExact", dynlib: "libgd.so".}
-proc gdImageColorExactAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorExactAlpha", dynlib: "libgd.so".}
-proc gdImageColorResolve(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorResolve", dynlib: "libgd.so".}
-proc gdImageColorResolveAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorResolveAlpha", dynlib: "libgd.so".}
-
-proc gdImageColorTransparent(im: gdImagePtr; color: cint) {.cdecl, importc: "gdImageColorTransparent", dynlib: "libgd.so".}
-
-proc gdImageSetPixel(im: gdImagePtr; x: cint; y: cint; color: cint) {.cdecl, importc: "gdImageSetPixel", dynlib: "libgd.so".}
-proc gdImageGetPixel*(im: gdImagePtr; x: cint; y: cint): cint {.cdecl, importc: "gdImageGetPixel", dynlib: "libgd.so".}
-proc gdImageGetTrueColorPixel*(im: gdImagePtr; x: cint; y: cint): cint {.cdecl, importc: "gdImageGetTrueColorPixel", dynlib: "libgd.so".}
-proc gdImageAABlend*(im: gdImagePtr) {.cdecl, importc: "gdImageAABlend", dynlib: "libgd.so".}
+proc gdImageDestroy*(im: gdImagePtr) {.cdecl, importc: "gdImageDestroy", dynlib: gdlib.}
 
 
-proc gdImageLine(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint; color: cint) {.cdecl, importc: "gdImageLine", dynlib: "libgd.so".}
-proc gdImageDashedLine(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint; color: cint) {.cdecl, importc: "gdImageDashedLine", dynlib: "libgd.so".}
-proc gdImageRectangle(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint; color: cint) {.cdecl, importc: "gdImageRectangle", dynlib: "libgd.so".}
-proc gdImageFilledRectangle(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint; color: cint) {.cdecl, importc: "gdImageFilledRectangle", dynlib: "libgd.so".}
-proc gdImageSetClip*(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint) {.cdecl, importc: "gdImageSetClip", dynlib: "libgd.so".}
-proc gdImageGetClip*(im: gdImagePtr; x1P: ptr cint; y1P: ptr cint; x2P: ptr cint; y2P: ptr cint) {.cdecl, importc: "gdImageGetClip", dynlib: "libgd.so".}
-proc gdImageSetResolution*(im: gdImagePtr; res_x: cuint; res_y: cuint) {.cdecl, importc: "gdImageSetResolution", dynlib: "libgd.so".}
-proc gdImageBoundsSafe*(im: gdImagePtr; x: cint; y: cint): cint {.cdecl, importc: "gdImageBoundsSafe", dynlib: "libgd.so".}
+proc gdImageColorAllocate(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorAllocate", dynlib: gdlib.}
+proc gdImageColorAllocateAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorAllocateAlpha", dynlib: gdlib.}
+proc gdImageColorClosest(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorClosest", dynlib: gdlib.}
+proc gdImageColorClosestAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorClosestAlpha", dynlib: gdlib.}
+proc gdImageColorClosestHWB(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorClosestHWB", dynlib: gdlib.}
+proc gdImageColorExact(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorExact", dynlib: gdlib.}
+proc gdImageColorExactAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorExactAlpha", dynlib: gdlib.}
+proc gdImageColorResolve(im: gdImagePtr; r: cint; g: cint; b: cint): cint {.cdecl, importc: "gdImageColorResolve", dynlib: gdlib.}
+proc gdImageColorResolveAlpha(im: gdImagePtr; r: cint; g: cint; b: cint; a: cint): cint {.cdecl, importc: "gdImageColorResolveAlpha", dynlib: gdlib.}
+
+proc gdImageColorTransparent(im: gdImagePtr; color: cint) {.cdecl, importc: "gdImageColorTransparent", dynlib: gdlib.}
+
+proc gdImageSetPixel(im: gdImagePtr; x: cint; y: cint; color: cint) {.cdecl, importc: "gdImageSetPixel", dynlib: gdlib.}
+proc gdImageGetPixel*(im: gdImagePtr; x: cint; y: cint): cint {.cdecl, importc: "gdImageGetPixel", dynlib: gdlib.}
+proc gdImageGetTrueColorPixel*(im: gdImagePtr; x: cint; y: cint): cint {.cdecl, importc: "gdImageGetTrueColorPixel", dynlib: gdlib.}
+proc gdImageAABlend*(im: gdImagePtr) {.cdecl, importc: "gdImageAABlend", dynlib: gdlib.}
 
 
-proc gdImageFilledArc(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; s: cint; e: cint; color: cint; style: cint) {.cdecl, importc: "gdImageFilledArc", dynlib: "libgd.so".}
-proc gdImageArc(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; s: cint; e: cint; color: cint) {.cdecl, importc: "gdImageArc", dynlib: "libgd.so".}
-proc gdImageEllipse(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; color: cint) {.cdecl, importc: "gdImageEllipse", dynlib: "libgd.so".}
-proc gdImageFilledEllipse(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; color: cint) {.cdecl, importc: "gdImageFilledEllipse", dynlib: "libgd.so".}
-proc gdImageFillToBorder*(im: gdImagePtr; x: cint; y: cint; border: cint; color: cint) {.cdecl, importc: "gdImageFillToBorder", dynlib: "libgd.so".}
-proc gdImageFill(im: gdImagePtr; x: cint; y: cint; color: cint) {.cdecl, importc: "gdImageFill", dynlib: "libgd.so".}
-proc gdImageCopy*(dst: gdImagePtr; src: gdImagePtr; dstX: cint; dstY: cint; srcX: cint; srcY: cint; w: cint; h: cint) {.cdecl, importc: "gdImageCopy", dynlib: "libgd.so".}
-proc gdImageCopyMerge*(dst: gdImagePtr; src: gdImagePtr; dstX: cint; dstY: cint; srcX: cint; srcY: cint; w: cint; h: cint; pct: cint) {.cdecl, importc: "gdImageCopyMerge", dynlib: "libgd.so".}
-proc gdImageCopyMergeGray*(dst: gdImagePtr; src: gdImagePtr; dstX: cint; dstY: cint; srcX: cint; srcY: cint; w: cint; h: cint; pct: cint) {.cdecl, importc: "gdImageCopyMergeGray", dynlib: "libgd.so".}
+proc gdImageLine(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint; color: cint) {.cdecl, importc: "gdImageLine", dynlib: gdlib.}
+proc gdImageDashedLine(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint; color: cint) {.cdecl, importc: "gdImageDashedLine", dynlib: gdlib.}
+proc gdImageRectangle(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint; color: cint) {.cdecl, importc: "gdImageRectangle", dynlib: gdlib.}
+proc gdImageFilledRectangle(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint; color: cint) {.cdecl, importc: "gdImageFilledRectangle", dynlib: gdlib.}
+proc gdImageSetClip*(im: gdImagePtr; x1: cint; y1: cint; x2: cint; y2: cint) {.cdecl, importc: "gdImageSetClip", dynlib: gdlib.}
+proc gdImageGetClip*(im: gdImagePtr; x1P: ptr cint; y1P: ptr cint; x2P: ptr cint; y2P: ptr cint) {.cdecl, importc: "gdImageGetClip", dynlib: gdlib.}
+proc gdImageSetResolution*(im: gdImagePtr; res_x: cuint; res_y: cuint) {.cdecl, importc: "gdImageSetResolution", dynlib: gdlib.}
+proc gdImageBoundsSafe*(im: gdImagePtr; x: cint; y: cint): cint {.cdecl, importc: "gdImageBoundsSafe", dynlib: gdlib.}
 
 
-proc gdImagePolygon(im: gdImagePtr; p: gdPointPtr; n: cint; c: cint) {.cdecl, importc: "gdImagePolygon", dynlib: "libgd.so".}
-proc gdImageOpenPolygon(im: gdImagePtr; p: gdPointPtr; n: cint; c: cint) {.cdecl, importc: "gdImageOpenPolygon", dynlib: "libgd.so".}
-proc gdImageFilledPolygon(im: gdImagePtr; p: gdPointPtr; n: cint; c: cint) {.cdecl, importc: "gdImageFilledPolygon", dynlib: "libgd.so".}
-
-proc gdImageGif(im: gdImagePtr; output: ptr FILE) {.cdecl, importc: "gdImageGif", dynlib: "libgd.so".}
-proc gdImagePng(im: gdImagePtr; output: ptr FILE) {.cdecl, importc: "gdImagePng", dynlib: "libgd.so".}
-proc gdImageTiff*(im: gdImagePtr; output: ptr FILE) {.cdecl, importc: "gdImageTiff", dynlib: "libgd.so".}
-proc gdImageJpeg(im: gdImagePtr; output: ptr FILE; quality: cint) {.cdecl, importc: "gdImageJpeg", dynlib: "libgd.so".}
-proc gdImageWebpEx*(im: gdImagePtr; outFile: ptr FILE; quantization: cint) {.cdecl, importc: "gdImageWebpEx", dynlib: "libgd.so".}
-proc gdImageWebp*(im: gdImagePtr; outFile: ptr FILE) {.cdecl, importc: "gdImageWebp", dynlib: "libgd.so".}
-
-proc gdImageFlipHorizontal(im: gdImagePtr) {.cdecl, importc: "gdImageFlipHorizontal", dynlib: "libgd.so".}
-proc gdImageFlipVertical(im: gdImagePtr) {.cdecl, importc: "gdImageFlipVertical", dynlib: "libgd.so".}
-proc gdImageFlipBoth(im: gdImagePtr) {.cdecl, importc: "gdImageFlipBoth", dynlib: "libgd.so".}
+proc gdImageFilledArc(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; s: cint; e: cint; color: cint; style: cint) {.cdecl, importc: "gdImageFilledArc", dynlib: gdlib.}
+proc gdImageArc(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; s: cint; e: cint; color: cint) {.cdecl, importc: "gdImageArc", dynlib: gdlib.}
+proc gdImageEllipse(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; color: cint) {.cdecl, importc: "gdImageEllipse", dynlib: gdlib.}
+proc gdImageFilledEllipse(im: gdImagePtr; cx: cint; cy: cint; w: cint; h: cint; color: cint) {.cdecl, importc: "gdImageFilledEllipse", dynlib: gdlib.}
+proc gdImageFillToBorder*(im: gdImagePtr; x: cint; y: cint; border: cint; color: cint) {.cdecl, importc: "gdImageFillToBorder", dynlib: gdlib.}
+proc gdImageFill(im: gdImagePtr; x: cint; y: cint; color: cint) {.cdecl, importc: "gdImageFill", dynlib: gdlib.}
+proc gdImageCopy*(dst: gdImagePtr; src: gdImagePtr; dstX: cint; dstY: cint; srcX: cint; srcY: cint; w: cint; h: cint) {.cdecl, importc: "gdImageCopy", dynlib: gdlib.}
+proc gdImageCopyMerge*(dst: gdImagePtr; src: gdImagePtr; dstX: cint; dstY: cint; srcX: cint; srcY: cint; w: cint; h: cint; pct: cint) {.cdecl, importc: "gdImageCopyMerge", dynlib: gdlib.}
+proc gdImageCopyMergeGray*(dst: gdImagePtr; src: gdImagePtr; dstX: cint; dstY: cint; srcX: cint; srcY: cint; w: cint; h: cint; pct: cint) {.cdecl, importc: "gdImageCopyMergeGray", dynlib: gdlib.}
 
 
-proc gdImageChar(im: gdImagePtr; f: gdFontPtr; x: cint; y: cint; c: cint; color: cint) {.cdecl, importc: "gdImageChar", dynlib: "libgd.so".}
-proc gdImageCharUp(im: gdImagePtr; f: gdFontPtr; x: cint; y: cint; c: cint; color: cint) {.cdecl, importc: "gdImageCharUp", dynlib: "libgd.so".}
-proc gdImageString(im: gdImagePtr; f: gdFontPtr; x: cint; y: cint; s: ptr cuchar; color: cint) {.cdecl, importc: "gdImageString", dynlib: "libgd.so".}
-proc gdImageStringUp(im: gdImagePtr; f: gdFontPtr; x: cint; y: cint; s: ptr cuchar; color: cint) {.cdecl, importc: "gdImageStringUp", dynlib: "libgd.so".}
+proc gdImagePolygon(im: gdImagePtr; p: gdPointPtr; n: cint; c: cint) {.cdecl, importc: "gdImagePolygon", dynlib: gdlib.}
+proc gdImageOpenPolygon(im: gdImagePtr; p: gdPointPtr; n: cint; c: cint) {.cdecl, importc: "gdImageOpenPolygon", dynlib: gdlib.}
+proc gdImageFilledPolygon(im: gdImagePtr; p: gdPointPtr; n: cint; c: cint) {.cdecl, importc: "gdImageFilledPolygon", dynlib: gdlib.}
 
-proc gdFontGetSmall*(): gdFontPtr {.cdecl, importc: "gdFontGetSmall", dynlib: "libgd.so".}
-proc gdFontGetLarge*(): gdFontPtr {.cdecl, importc: "gdFontGetSmall", dynlib: "libgd.so".}
-proc gdFontGetMediumBold*(): gdFontPtr {.cdecl, importc: "gdFontGetSmall", dynlib: "libgd.so".}
+proc gdImageGif(im: gdImagePtr; output: ptr FILE) {.cdecl, importc: "gdImageGif", dynlib: gdlib.}
+proc gdImagePng(im: gdImagePtr; output: ptr FILE) {.cdecl, importc: "gdImagePng", dynlib: gdlib.}
+proc gdImageTiff*(im: gdImagePtr; output: ptr FILE) {.cdecl, importc: "gdImageTiff", dynlib: gdlib.}
+proc gdImageJpeg(im: gdImagePtr; output: ptr FILE; quality: cint) {.cdecl, importc: "gdImageJpeg", dynlib: gdlib.}
+proc gdImageWebpEx*(im: gdImagePtr; outFile: ptr FILE; quantization: cint) {.cdecl, importc: "gdImageWebpEx", dynlib: gdlib.}
+proc gdImageWebp*(im: gdImagePtr; outFile: ptr FILE) {.cdecl, importc: "gdImageWebp", dynlib: gdlib.}
+
+proc gdImageFlipHorizontal(im: gdImagePtr) {.cdecl, importc: "gdImageFlipHorizontal", dynlib: gdlib.}
+proc gdImageFlipVertical(im: gdImagePtr) {.cdecl, importc: "gdImageFlipVertical", dynlib: gdlib.}
+proc gdImageFlipBoth(im: gdImagePtr) {.cdecl, importc: "gdImageFlipBoth", dynlib: gdlib.}
 
 
-proc gdImageSetThickness(im: gdImagePtr; thickness: cint) {.cdecl, importc: "gdImageSetThickness", dynlib: "libgd.so".}
+proc gdImageChar(im: gdImagePtr; f: gdFontPtr; x: cint; y: cint; c: cint; color: cint) {.cdecl, importc: "gdImageChar", dynlib: gdlib.}
+proc gdImageCharUp(im: gdImagePtr; f: gdFontPtr; x: cint; y: cint; c: cint; color: cint) {.cdecl, importc: "gdImageCharUp", dynlib: gdlib.}
+proc gdImageString(im: gdImagePtr; f: gdFontPtr; x: cint; y: cint; s: ptr cuchar; color: cint) {.cdecl, importc: "gdImageString", dynlib: gdlib.}
+proc gdImageStringUp(im: gdImagePtr; f: gdFontPtr; x: cint; y: cint; s: ptr cuchar; color: cint) {.cdecl, importc: "gdImageStringUp", dynlib: gdlib.}
+
+proc gdFontGetSmall*(): gdFontPtr {.cdecl, importc: "gdFontGetSmall", dynlib: gdlib.}
+proc gdFontGetLarge*(): gdFontPtr {.cdecl, importc: "gdFontGetSmall", dynlib: gdlib.}
+proc gdFontGetMediumBold*(): gdFontPtr {.cdecl, importc: "gdFontGetSmall", dynlib: gdlib.}
 
 
-proc gdImageSetAntiAliased*(im: gdImagePtr; c: cint) {.cdecl, importc: "gdImageSetAntiAliased", dynlib: "libgd.so".}
-proc gdImageSetAntiAliasedDontBlend*(im: gdImagePtr; c: cint; dont_blend: cint) {.cdecl, importc: "gdImageSetAntiAliasedDontBlend", dynlib: "libgd.so".}
+proc gdImageSetThickness(im: gdImagePtr; thickness: cint) {.cdecl, importc: "gdImageSetThickness", dynlib: gdlib.}
 
-proc gdFontCacheSetup*(): cint {.cdecl, importc: "gdFontCacheSetup", dynlib: "libgd.so".}
-proc gdFontCacheShutdown*() {.cdecl, importc: "gdFontCacheShutdown", dynlib: "libgd.so".}
-proc gdFreeFontCache*() {.cdecl, importc: "gdFreeFontCache", dynlib: "libgd.so".}
 
-proc gdImageStringTTF*(im: ptr gdImage; brect: ptr cint; fg: cint; fontlist: cstring; ptsize: cdouble; angle: cdouble; x: cint; y: cint; s: cstring): cstring {.cdecl, importc: "gdImageStringTTF", dynlib: "libgd.so".}
-proc gdImageStringFT(im: ptr gdImage; brect: ptr cint; fg: cint; fontlist: cstring; ptsize: cdouble; angle: cdouble; x: cint; y: cint; s: cstring): cstring {.cdecl, importc: "gdImageStringFT", dynlib: "libgd.so".}
+proc gdImageSetAntiAliased*(im: gdImagePtr; c: cint) {.cdecl, importc: "gdImageSetAntiAliased", dynlib: gdlib.}
+proc gdImageSetAntiAliasedDontBlend*(im: gdImagePtr; c: cint; dont_blend: cint) {.cdecl, importc: "gdImageSetAntiAliasedDontBlend", dynlib: gdlib.}
+
+proc gdFontCacheSetup*(): cint {.cdecl, importc: "gdFontCacheSetup", dynlib: gdlib.}
+proc gdFontCacheShutdown*() {.cdecl, importc: "gdFontCacheShutdown", dynlib: gdlib.}
+proc gdFreeFontCache*() {.cdecl, importc: "gdFreeFontCache", dynlib: gdlib.}
+
+proc gdImageStringTTF*(im: ptr gdImage; brect: ptr cint; fg: cint; fontlist: cstring; ptsize: cdouble; angle: cdouble; x: cint; y: cint; s: cstring): cstring {.cdecl, importc: "gdImageStringTTF", dynlib: gdlib.}
+proc gdImageStringFT(im: ptr gdImage; brect: ptr cint; fg: cint; fontlist: cstring; ptsize: cdouble; angle: cdouble; x: cint; y: cint; s: cstring): cstring {.cdecl, importc: "gdImageStringFT", dynlib: gdlib.}
 
 
 # https://libgd.github.io/manuals/2.2.4/files/gd_filter-c.html
-proc gdImageContrast(src: gdImagePtr; contrast: cdouble): cint {.cdecl, importc: "gdImageContrast", dynlib: "libgd.so".}
-proc gdImageBrightness(src: gdImagePtr; brightness: cint): cint {.cdecl, importc: "gdImageBrightness", dynlib: "libgd.so".}
-proc gdImageGrayScale(src: gdImagePtr): cint {.cdecl, importc: "gdImageGrayScale", dynlib: "libgd.so".}
-proc gdImageNegate(src: gdImagePtr): cint {.cdecl, importc: "gdImageNegate", dynlib: "libgd.so".}
-proc gdImageEmboss(src: gdImagePtr): cint {.cdecl, importc: "gdImageEmboss", dynlib: "libgd.so".}
-proc gdImageGaussianBlur(im: gdImagePtr): cint {.cdecl, importc: "gdImageGaussianBlur", dynlib: "libgd.so".}
-proc gdImageSmooth(im: gdImagePtr, weight: float): cint {.cdecl, importc: "gdImageSmooth", dynlib: "libgd.so".}
-proc gdImageEdgeDetectQuick(src: gdImagePtr): cint {.cdecl, importc: "gdImageEdgeDetectQuick", dynlib: "libgd.so".}
-proc gdImageSelectiveBlur(src: gdImagePtr): cint {.cdecl, importc: "gdImageSelectiveBlur", dynlib: "libgd.so".}
-proc gdImageMeanRemoval(im: gdImagePtr): cint {.cdecl, importc: "gdImageMeanRemoval", dynlib: "libgd.so".}
+proc gdImageContrast(src: gdImagePtr; contrast: cdouble): cint {.cdecl, importc: "gdImageContrast", dynlib: gdlib.}
+proc gdImageBrightness(src: gdImagePtr; brightness: cint): cint {.cdecl, importc: "gdImageBrightness", dynlib: gdlib.}
+proc gdImageGrayScale(src: gdImagePtr): cint {.cdecl, importc: "gdImageGrayScale", dynlib: gdlib.}
+proc gdImageNegate(src: gdImagePtr): cint {.cdecl, importc: "gdImageNegate", dynlib: gdlib.}
+proc gdImageEmboss(src: gdImagePtr): cint {.cdecl, importc: "gdImageEmboss", dynlib: gdlib.}
+proc gdImageGaussianBlur(im: gdImagePtr): cint {.cdecl, importc: "gdImageGaussianBlur", dynlib: gdlib.}
+proc gdImageSmooth(im: gdImagePtr, weight: float): cint {.cdecl, importc: "gdImageSmooth", dynlib: gdlib.}
+proc gdImageEdgeDetectQuick(src: gdImagePtr): cint {.cdecl, importc: "gdImageEdgeDetectQuick", dynlib: gdlib.}
+proc gdImageSelectiveBlur(src: gdImagePtr): cint {.cdecl, importc: "gdImageSelectiveBlur", dynlib: gdlib.}
+proc gdImageMeanRemoval(im: gdImagePtr): cint {.cdecl, importc: "gdImageMeanRemoval", dynlib: gdlib.}
 
 
-proc gdImageScale(src: gdImagePtr; new_width: cuint; new_height: cuint): gdImagePtr {.cdecl, importc: "gdImageScale", dynlib: "libgd.so".}
+proc gdImageScale(src: gdImagePtr; new_width: cuint; new_height: cuint): gdImagePtr {.cdecl, importc: "gdImageScale", dynlib: gdlib.}
 
-proc gdImageCreateFromPng(fd: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromPng", dynlib: "libgd.so".}
-proc gdImageCreateFromJpeg(infile: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromJpeg", dynlib: "libgd.so".}
-proc gdImageCreateFromGif(fd: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromGif", dynlib: "libgd.so".}
-proc gdImageCreateFromBmp(inFile: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromBmp", dynlib: "libgd.so".}
-proc gdImageCreateFromFile(filename: cstring): gdImagePtr {.cdecl, importc: "gdImageCreateFromFile", dynlib: "libgd.so".}
+proc gdImageCreateFromPng(fd: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromPng", dynlib: gdlib.}
+proc gdImageCreateFromJpeg(infile: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromJpeg", dynlib: gdlib.}
+proc gdImageCreateFromGif(fd: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromGif", dynlib: gdlib.}
+proc gdImageCreateFromBmp(inFile: ptr FILE): gdImagePtr {.cdecl, importc: "gdImageCreateFromBmp", dynlib: gdlib.}
+proc gdImageCreateFromFile(filename: cstring): gdImagePtr {.cdecl, importc: "gdImageCreateFromFile", dynlib: gdlib.}
 
     
 #--- Nim Interface ---
