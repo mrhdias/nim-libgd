@@ -14,11 +14,12 @@ proc main() =
 
     try:
       let blue = img.setColor(0x0000ff)
-      img.drawStringFt(color=blue, fontList="LiberationSans-Bold", size=20.0, angle=0.0, position=[100, 200], text="Hello World!")
-    except GDFontError:
+      img.drawStringFt(color=blue, fontList="DejaVuSans-Bold", size=20.0, angle=0.0, position=[100, 200], text="Hello World!")
+    except CatchableError:
       let msg = getCurrentExceptionMsg()
       echo msg & ". Please execute this comand:"
       echo "export GDFONTPATH=/usr/share/fonts/TTF/"
+      echo "check if the font DejaVuSans-Bold exists in /usr/share/fonts/TTF/ directory"
 
     let png_out = open(outputsDir / "test_gd_string_ft.png", fmWrite)
     img.writePng(png_out)
