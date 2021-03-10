@@ -1,10 +1,10 @@
 #
-# Copyright (C) 2019 Henrique Dias
+# Copyright (C) 2021 Henrique Dias
 # MIT License - Look at LICENSE for details.
 # nim-libgd package is an interface to the GD library written by
 # Thomas Bouttel.
 #
-from parseutils import parseHex
+
 from math import sin, cos, degToRad, `mod`
 import strutils
 import macros
@@ -96,9 +96,6 @@ type
     interpolation*: interpolation_method
 
   gdImagePtr* = ptr gdImage
-
-  GDFontError* = object of Exception
-  GDRegularPolygonError* = object of Exception
 
 
 type
@@ -409,7 +406,7 @@ proc draw_polygon*(im: gdImagePtr, points: openArray[array[0..1, int]], color: i
 proc draw_regular_polygon*(im: gdImagePtr, center: array[2,int], sides: int, radius: int, start_angle: int = 0, color: int, fill: bool = false, open: bool = false) =
 
   if sides < 3:
-    raise newException(GDRegularPolygonError, "The number of sides can not be less than 3")
+    raise newException(ValueError, "The number of sides can not be less than 3")
 
   proc calc_position(x: int, y: int, radius: int, pos_angle: float): (cint, cint) =
     var width = int(radius.float * sin(degToRad(pos_angle)))
@@ -451,9 +448,9 @@ proc draw_character*(im: gdImagePtr, font: gdFontPtr, position: array[2, int], c
 
 proc draw_string_ft*(im: gdImagePtr, color: int, fontList: string, size: float, angle: float, position: array[2, int], text: string) =
   var brect: array[8, cint];
-  var cp = gdImageStringFT(cast[ptr gdImage](im), cast[ptr cint](addr brect[0]), cast[cint](color), fontList.cstring, cast[cdouble](size), cast[cdouble](angle), cast[cint](position[0]), cast[cint](position[1]), text.cstring)
+  let cp = gdImageStringFT(cast[ptr gdImage](im), cast[ptr cint](addr brect[0]), cast[cint](color), fontList.cstring, cast[cdouble](size), cast[cdouble](angle), cast[cint](position[0]), cast[cint](position[1]), text.cstring)
   if cp.len > 0:
-    raise newException(GDFontError, $cp)
+    raise newException(CatchableError, $cp)
 
 proc set_thickness*(im: gdImagePtr, thickness: int) = im.gdImageSetThickness(cast[cint](thickness))
 
